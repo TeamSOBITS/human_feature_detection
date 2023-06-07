@@ -1,0 +1,425 @@
+location_pose:
+
+    - {
+        location_name: "talltable",
+        frame_id: "map",
+        translation_x: 1.3650035858154297,
+        translation_y: -2.811521053314209,
+        translation_z: 0.0000000,
+        rotation_x: 0.0000000,
+        rotation_y: 0.0000000,
+        rotation_z: -0.9174249384997075,
+        rotation_w: 0.397908886830651,
+
+        # translation_x: -0.8193448,
+        # translation_y: -1.9339600,
+        # translation_z: 0.0000000,
+        # rotation_x: 0.0000000,
+        # rotation_y: 0.0000000,
+        # rotation_z: 0.9524810,
+        # rotation_w: 0.3045981,
+    }
+
+    - {
+        location_name: "longtable",
+        frame_id: "map",
+        translation_x: 4.206823825836182,
+        translation_y: -0.832748532295227,
+        translation_z: 0.0000000,
+        rotation_x: 0.0000000,
+        rotation_y: 0.0000000,
+        rotation_z: -0.22766065872438393,
+        rotation_w: 0.9737405324156839,
+
+        # translation_x: 1.2518738,
+        # translation_y: -3.9442319,
+        # translation_z: 0.0000000,
+        # rotation_x: 0.0000000,
+        # rotation_y: 0.0000000,
+        # rotation_z: -0.7017371,
+        # rotation_w: 0.7124360,
+    }
+
+    - {
+        location_name: "drawer",
+        frame_id: "map",
+        translation_x: 4.249584674835205,
+        translation_y: -2.3302338123321533,
+        translation_z: 0.0000000,
+        rotation_x: 0.0000000,
+        rotation_y: 0.0000000,
+        rotation_z: -0.35021516955514903,
+        rotation_w: 0.9366692772870573,
+
+        # translation_x: -0.6147350,
+        # translation_y: -4.1377281,
+        # translation_z: 0.0000000,
+        # rotation_x: 0.0000000,
+        # rotation_y: 0.0000000,
+        # rotation_z: 0.9437620,
+        # rotation_w: -0.3306255,
+    }
+
+    - {
+        location_name: "whitetable",
+        frame_id: "map",
+        translation_x: 1.0869474411010742,
+        translation_y: -1.482285499572754,
+        translation_z: 0.0000000,
+        rotation_x: 0.0000000,
+        rotation_y: 0.0000000,
+        rotation_z: -0.9907148755552484,
+        rotation_w: 0.135956005213262235,
+
+        # translation_x: 0.2593407,
+        # translation_y: -1.8389145,
+        # translation_z: 0.0000000,
+        # rotation_x: 0.0000000,
+        # rotation_y: 0.0000000,
+        # rotation_z: 0.7054053,
+        # rotation_w: 0.7088042,
+    }
+
+    - {
+        location_name: "Bin",
+        frame_id: "map",
+        translation_x: 4.055938720703125,
+        translation_y: 0.47585296630859375,
+        translation_z: 0.0000000,
+        rotation_x: 0.0000000,
+        rotation_y: 0.0000000,
+        rotation_z: -0.42558663747519565,
+        rotation_w: 0.9049176835505849,
+
+        # translation_x: 0.2593407,
+        # translation_y: -1.8389145,
+        # translation_z: 0.0000000,
+        # rotation_x: 0.0000000,
+        # rotation_y: 0.0000000,
+        # rotation_z: 0.7054053,
+        # rotation_w: 0.7088042,
+    }
+
+
+    - {
+        location_name: "init2",
+        frame_id: "map",
+        translation_x: -0.27219629287719727,
+        translation_y: 0.07582426071166992,
+        translation_z: 0.0000000,
+        rotation_x: 0.0000000,
+        rotation_y: 0.0000000,
+        rotation_z: 0.031169098431439987,
+        rotation_w: 0.9995141256145263,
+
+        # translation_x: 0.0302221,
+        # translation_y: 0.0008186,
+        # translation_z: 0.0000000,
+        # rotation_x: 0.0000000,
+        # rotation_y: 0.0000000,
+        # rotation_z: -0.0035548,
+        # rotation_w: 0.9999937,
+    }
+
+    - {
+        location_name: "init",
+        frame_id: "map",
+        translation_x: -0.1200340986251831,
+        translation_y: 0.09060239791870117,
+        translation_z: 0.0000000,
+        rotation_x: 0.0000000,
+        rotation_y: 0.0000000,
+        rotation_z: -0.9991862641294952,
+        rotation_w: 0.04033372751113678,
+
+        # translation_x: 0.3857457,
+        # translation_y: 0.0467248,
+        # translation_z: 0.0000000,
+        # rotation_x: 0.0000000,
+        # rotation_y: 0.0000000,
+        # rotation_z: 0.9990999,
+        # rotation_w: -0.0424190,
+    }
+
+    - {
+        location_name: "move",
+        frame_id: "map",
+        translation_x: 0.6763551235198975,
+        translation_y: 0.19354796409606934,
+        translation_z: 0.0000000,
+        rotation_x: 0.0000000,
+        rotation_y: 0.0000000,
+        rotation_z: 0.0432932137991441,
+        rotation_w: 0.9990624092812929,
+
+
+        # translation_x: 2.1536533,
+        # translation_y: -2.5296288,
+        # translation_z: 0.0000000,
+        # rotation_x: 0.0000000,
+        # rotation_y: 0.0000000,
+        # rotation_z: 0.8722049,
+        # rotation_w: -0.3867017,
+    }
+
+    - {
+        location_name: "move2",
+        frame_id: "map",
+        translation_x: 1.831985354423523,
+        translation_y: 0.02418828010559082,
+        translation_z: 0.0000000,
+        rotation_x: 0.0000000,
+        rotation_y: 0.0000000,
+        rotation_z: -0.3763570347879184,
+        rotation_w: 0.9264747068137617,
+
+     
+
+        # translation_x: 2.1300925,
+        # translation_y: -2.5258300,
+        # translation_z: 0.0000000,
+        # rotation_x: 0.0000000,
+        # rotation_y: 0.0000000,
+        # rotation_z: 0.9819695,
+        # rotation_w: 0.1890393,
+    }
+
+    - {
+        location_name: "move3",
+        frame_id: "map",
+        translation_x: 3.1690616607666016,
+        translation_y: 0.3588428497314453,
+        translation_z: 0.0000000,
+        rotation_x: 0.0000000,
+        rotation_y: 0.0000000,
+        rotation_z: -0.8955652311359364,
+        rotation_w: 0.44493023810529764,
+
+     
+
+        # translation_x: 2.1300925,
+        # translation_y: -2.5258300,
+        # translation_z: 0.0000000,
+        # rotation_x: 0.0000000,
+        # rotation_y: 0.0000000,
+        # rotation_z: 0.9819695,
+        # rotation_w: 0.1890393,
+    }
+
+    - {
+        location_name: "move4",
+        frame_id: "map",
+        translation_x: 3.206737518310547,
+        translation_y: 0.2345041036605835,
+        translation_z: 0.0000000,
+        rotation_x: 0.0000000,
+        rotation_y: 0.0000000,
+        rotation_z: -0.8601575463714014,
+        rotation_w: 0.5100284260904783,
+
+     
+
+        # translation_x: 2.1300925,
+        # translation_y: -2.5258300,
+        # translation_z: 0.0000000,
+        # rotation_x: 0.0000000,
+        # rotation_y: 0.0000000,
+        # rotation_z: 0.9819695,
+        # rotation_w: 0.1890393,
+    }
+
+
+    # - {
+    #     location_name: "move",
+    #     frame_id: "map",
+    #     translation_x: 2.3673766,
+    #     translation_y: -2.4970691,
+    #     translation_z: 0.0000000,
+    #     rotation_x: 0.0000000,
+    #     rotation_y: 0.0000000,
+    #     rotation_z: 0.9122974,
+    #     rotation_w: -0.4095283,
+    # }
+
+    # - {
+    #     location_name: "move2",
+    #     frame_id: "map",
+    #     translation_x: 2.3729530,
+    #     translation_y: -2.5066490,
+    #     translation_z: 0.0000000,
+    #     rotation_x: 0.0000000,
+    #     rotation_y: 0.0000000,
+    #     rotation_z: 0.9933825,
+    #     rotation_w: 0.1148527,
+    # }
+
+
+    # - {
+    #     location_name: "move",
+    #     frame_id: "map",
+    #     translation_x: 2.1080375,
+    #     translation_y: -2.7420833,
+    #     translation_z: 0.0000000,
+    #     rotation_x: 0.0000000,
+    #     rotation_y: 0.0000000,
+    #     rotation_z: 0.9311407,
+    #     rotation_w: -0.3646602,
+    # }
+
+    # - {
+    #     location_name: "move2",
+    #     frame_id: "map",
+    #     translation_x: 2.0912462,
+    #     translation_y: -2.7382792,
+    #     translation_z: 0.0000000,
+    #     rotation_x: 0.0000000,
+    #     rotation_y: 0.0000000,
+    #     rotation_z: 0.9554376,
+    #     rotation_w: 0.2951932,
+    # }
+
+    # - {
+    #     location_name: "1",
+    #     frame_id: "map",
+    #     translation_x: 1.6543650441,
+    #     translation_y: 0.03164734794207574,
+    #     translation_z: 0.0000000,
+    #     rotation_x: 0.0000000,
+    #     rotation_y: 0.0000000,
+    #     rotation_z: -0.2228650806038398,
+    #     rotation_w: 0.9748492990444442,
+
+    #     # translation_x: -0.9288803,
+    #     # translation_y: -1.8755829,
+    #     # translation_z: 0.0000000,
+    #     # rotation_x: 0.0000000,
+    #     # rotation_y: 0.0000000,
+    #     # rotation_z: 0.9744630,
+    #     # rotation_w: 0.2245481,
+    # }
+
+    # - {
+    #     location_name: "2",
+    #     frame_id: "map",
+    #     translation_x: -0.3617526590824127,
+    #     translation_y: -0.70309978723526,
+    #     translation_z: 0.0000000,
+    #     rotation_x: 0.0000000,
+    #     rotation_y: 0.0000000,
+    #     rotation_z: -0.9023530035990472,
+    #     rotation_w: 0.430997745812873,
+
+    #     # translation_x: -0.7023653,
+    #     # translation_y: -4.0879940,
+    #     # translation_z: 0.0000000,
+    #     # rotation_x: 0.0000000,
+    #     # rotation_y: 0.0000000,
+    #     # rotation_z: 0.9795052,
+    #     # rotation_w: -0.2014190,
+    # }
+
+    # - {
+    #     location_name: "3",
+    #     frame_id: "map",
+    #     translation_x: 2.3777971267700195,
+    #     translation_y: 0.10208272933959961,
+    #     translation_z: 0.0000000,
+    #     rotation_x: 0.0000000,
+    #     rotation_y: 0.0000000,
+    #     rotation_z: -0.2095733127061555,
+    #     rotation_w: 0.9777929364652661,
+
+    #     # translation_x: 1.7209341,
+    #     # translation_y: -3.7927958,
+    #     # translation_z: 0.0000000,
+    #     # rotation_x: 0.0000000,
+    #     # rotation_y: 0.0000000,
+    #     # rotation_z: -0.1596915,
+    #     # rotation_w: 0.9871670,
+    # }
+
+    # - {
+    #     location_name: "4",
+    #     frame_id: "map",
+    #     translation_x: 1.7060120105743408,
+    #     translation_y: 1.998834490776062,
+    #     translation_z: 0.0000000,
+    #     rotation_x: 0.0000000,
+    #     rotation_y: 0.0000000,
+    #     rotation_z: 0.48856910519169944,
+    #     rotation_w: 0.8725252027604602,
+
+    #     # translation_x: 1.3652755,
+    #     # translation_y: -1.8235135,
+    #     # translation_z: 0.0000000,
+    #     # rotation_x: 0.0000000,
+    #     # rotation_y: 0.0000000,
+    #     # rotation_z: 0.4858481,
+    #     # rotation_w: 0.8740433,
+    # }
+
+
+
+
+
+
+
+
+
+# location_pose:
+#     - {
+#         location_name: "init",
+#         frame_id: "map",
+#         translation_x: 0.0156542,
+#         translation_y: 0.0055516,
+#         translation_z: 0.0000000,
+#         rotation_x: 0.0000000,
+#         rotation_y: 0.0000000,
+#         rotation_z: -0.0103762,
+#         rotation_w: 0.9999462,
+#         # translation_x: -0.7471791505813599,
+#         # translation_y: -0.3629077672958374,
+#         # translation_z: 0.0000000,
+#         # rotation_x: 0.0000000,
+#         # rotation_y: 0.0000000,
+#         # rotation_z: 0.11715889218597673,
+#         # rotation_w: 0.9931131828657571,
+#     }
+
+#     - {
+#         location_name: "table_1",
+#         frame_id: "map",
+#         translation_x: 3.6928163,
+#         translation_y: -1.5762514,
+#         translation_z: 0.0000000,
+#         rotation_x: 0.0000000,
+#         rotation_y: 0.0000000,
+#         rotation_z: -0.0391715,
+#         rotation_w: 0.9992325,
+#         # translation_x: 2.59163498878479,
+#         # translation_y: 0.17397919297218323,
+#         # translation_z: 0.0000000,
+#         # rotation_x: 0.0000000,
+#         # rotation_y: 0.0000000,
+#         # rotation_z: 0.7696995571776152,
+#         # rotation_w: 0.6384062904456559,
+#     }
+
+#     - {
+#         location_name: "table_2",
+#         frame_id: "map",
+#         translation_x: 3.1211915,
+#         translation_y: -3.0382592,
+#         translation_z: 0.0000000,
+#         rotation_x: 0.0000000,
+#         rotation_y: 0.0000000,
+#         rotation_z: -0.7153761,
+#         rotation_w: 0.6987396,
+#         # translation_x: 1.057079792022705,
+#         # translation_y: -3.955824851989746,
+#         # translation_z: 0.0000000,
+#         # rotation_x: 0.0000000,
+#         # rotation_y: 0.0000000,
+#         # rotation_z: 0.12537098258639487,
+#         # rotation_w: 0.9921099317743582,
+#     }
