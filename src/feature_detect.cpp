@@ -75,9 +75,67 @@ int main(int argc, char **argv)
     ros::init(argc, argv, "human_feature_detect");
     // FEATURE_SERVER feature_server;
     // ros::spin();
-    std::string cascade_filename;
+    std::string path;
     std::string user_name = std::getenv("USER");
-    cascade_filename = "/home/" + user_name + "/catkin_ws/src/human_feature_detect/filter/haarcascade_frontalface_alt.xml";
-    // std::cout << "USER: " << user_name << std::endl;
-    std::cout << "PATH : " << cascade_filename << std::endl;
+    path = "/home/" + user_name + "/catkin_ws/src/human_feature_detect/filter/";
+    
+    std::string cascade_filename, age_net_model, age_net_weight, sex_net_model, sex_net_weight;
+    cascade_filename = path + "haarcascade_frontalface_alt.xml";
+    age_net_model = path + "deploy_age.prototxt";
+    age_net_weight = path + "age_net.caffemodel";
+    sex_net_model = path + "deploy_gender.prototxt";
+    sex_net_weight = path + "gender_net.caffemodel";
+
+    cv::CascadeClassifier cascade;
+    if (!cascade.load(cascade_filename)) {
+        std::cerr << "Failed to load cascade classifier." << std::endl;
+        printf("NO!!\n");
+        return -1;
+    }
+
+    cv::dnn::Net age_net, sex_net;
+    age_net = cv::dnn::readNetFromCaffe(age_net_model, age_net_weight);
+    sex_net = cv::dnn::readNetFromCaffe(sex_net_model, sex_net_weight);
+
+    printf("ok\n");
+    // std::cout << age_net << std::endl;
+    // std::cout << sex_net << std::endl;
+    return 0;
 }
+
+// int main() {
+//     std::string user_name = std::getenv("USER");
+//     std::string cascade_filename;
+//     cascade_filename = "/home/" + user_name + "/catkin_ws/src/human_feature_detect/filter/haarcascade_frontalface_alt.xml";
+//     cv::CascadeClassifier cascade;
+//     // std::string cascade_filename = "/home/sobits/catkin_ws/src/sample_py/filter/haarcascade_frontalface_alt.xml";
+//     // cv::CascadeClassifier cascade;
+    
+//     // カスケード分類器の読み込み
+//     if (!cascade.load(cascade_filename)) {
+//         std::cerr << "Failed to load cascade classifier." << std::endl;
+//         return -1;
+//     }
+
+//     // 画像の読み込み
+//     cv::Mat image = cv::imread("/home/" +user_name + "/catkin_ws/src/image1.jpg");
+    
+//     // グレースケールに変換
+//     cv::Mat gray;
+//     cv::cvtColor(image, gray, cv::COLOR_BGR2GRAY);
+    
+//     // 顔検出
+//     std::vector<cv::Rect> faces;
+//     cascade.detectMultiScale(gray, faces, 1.1, 2, 0 | cv::CASCADE_SCALE_IMAGE, cv::Size(30, 30));
+    
+//     // 検出された顔の描画
+//     for (const auto& face : faces) {
+//         cv::rectangle(image, face, cv::Scalar(0, 255, 0), 2);
+//     }
+    
+//     // 画像の表示
+//     cv::imshow("Image", image);
+//     cv::waitKey(0);
+    
+//     return 0;
+// }
