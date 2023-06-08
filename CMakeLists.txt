@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS OpenCV REQUIRED
   roscpp
   rospy
   std_msgs
+  cv_bridge
 )
 
 ## System dependencies are found with CMake's conventions
@@ -105,7 +106,7 @@ generate_messages(
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES human_feature_detect
- CATKIN_DEPENDS roscpp rospy std_msgs 
+ CATKIN_DEPENDS roscpp rospy std_msgs cv_bridge
 #  DEPENDS system_lib
 )
 
