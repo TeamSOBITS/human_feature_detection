@@ -74,8 +74,6 @@ class FEATURE_SERVER
 int main(int argc, char **argv)
 {
     ros::init(argc, argv, "human_feature_detect");
-    std::cout << "OpenCV version : " << CV_MAJOR_VERSION << "." << CV_MINOR_VERSION << std::endl;
-    return 0;
     // FEATURE_SERVER feature_server;
     // ros::spin();
     std::string path;
