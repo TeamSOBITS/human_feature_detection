@@ -18,6 +18,7 @@
 // #include <active_slam/MapInformation.h>
 #include <cstdlib>
 #include <opencv2/opencv.hpp>
+#include <cv_bridge/cv_bridge.h>
 #include <sensor_msgs/Image.h>
 
 
@@ -73,6 +74,8 @@ class FEATURE_SERVER
 int main(int argc, char **argv)
 {
     ros::init(argc, argv, "human_feature_detect");
+    std::cout << "OpenCV version : " << CV_MAJOR_VERSION << "." << CV_MINOR_VERSION << std::endl;
+    return 0;
     // FEATURE_SERVER feature_server;
     // ros::spin();
     std::string path;
@@ -97,9 +100,34 @@ int main(int argc, char **argv)
     age_net = cv::dnn::readNetFromCaffe(age_net_model, age_net_weight);
     sex_net = cv::dnn::readNetFromCaffe(sex_net_model, sex_net_weight);
 
-    printf("ok\n");
+    // printf("ok\n");
     // std::cout << age_net << std::endl;
     // std::cout << sex_net << std::endl;
+    // std::cout << path << std::endl;
+
+
+
+
+    sensor_msgs::Image::ConstPtr image_msg;  // 元の画像
+    cv_bridge::CvImagePtr bridge;   // opencvに変換する先
+    try
+    {
+        bridge = cv_bridge::toCvCopy(image_msg, sensor_msgs::image_encodings::BGR8);
+    }
+    catch (cv_bridge::Exception& e)
+    {
+        printf("err\n");
+        ROS_ERROR("cv_bridge exception: %s", e.what());
+        return -1;
+    }
+    cv::Mat orig = bridge->image;
+
+
+    // cascade.detectMultiScale( orig, scaleFactor= 1.1, minNeighbors=5, minSize=(20,20) );
+    // cascade.detectMultiScale(orig, cv::Size(20,20), 1.1, 5, 0, cv::Size());
+
+    printf("ok!\n");
+
     return 0;
 }
 
