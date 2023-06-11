@@ -6,15 +6,15 @@ from std_msgs.msg       import Float64
 from std_msgs.msg import String
 from cv_bridge import CvBridge
 from geometry_msgs.msg import Point
-cascade_filename = '/home/sobits/catkin_ws/src/sample_py/filter/haarcascade_frontalface_alt.xml'
+cascade_filename = '/home/sobits/catkin_ws/src/human_feature_detect/filter/haarcascade_frontalface_alt.xml'
 cascade = cv2.CascadeClassifier(cascade_filename)
 MODEL_MEAN_VALUES = (78.4263377603, 87.7689143744, 114.895847746)
 age_net = cv2.dnn.readNetFromCaffe(
-	'/home/sobits/catkin_ws/src/sample_py/filter/deploy_age.prototxt',
-	'/home/sobits/catkin_ws/src/sample_py/filter/age_net.caffemodel')
+	'/home/sobits/catkin_ws/src/human_feature_detect/filter/deploy_age.prototxt',
+	'/home/sobits/catkin_ws/src/human_feature_detect/filter/age_net.caffemodel')
 gender_net = cv2.dnn.readNetFromCaffe(
-	'/home/sobits/catkin_ws/src/sample_py/filter/deploy_gender.prototxt',
-	'/home/sobits/catkin_ws/src/sample_py/filter/gender_net.caffemodel')
+	'/home/sobits/catkin_ws/src/human_feature_detect/filter/deploy_gender.prototxt',
+	'/home/sobits/catkin_ws/src/human_feature_detect/filter/gender_net.caffemodel')
 age_list = ['(0 ~ 2)','(4 ~ 6)','(8 ~ 12)','(15 ~ 20)',
             '(25 ~ 32)','(38 ~ 43)','(48 ~ 53)','(60 ~ 100)']
 gender_list = ['Male', 'Female']
@@ -51,15 +51,16 @@ def imgDetector(img,cascade,age_net,gender_net,MODEL_MEAN_VALUES,age_list,gender
         cv2.rectangle(img, (x,y), (x+w, y+h), (255,255,255), thickness=2)
         cv2.putText(img, info, (x,y),cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 255, 0), 2, cv2.LINE_AA)
         position = Point(x,y,0)
+        print(info)
     pub_gender.publish(gender)
     pub_age.publish(age)
     pub_coordinates.publish(position)
     result_flag = True
 
-def age_gender_callback(msg):
+def age_gender_callback(orig):
     try:
-        bridge = CvBridge()
-        orig = bridge.imgmsg_to_cv2(msg, "bgr8")
+        # bridge = CvBridge()
+        # orig = bridge.imgmsg_to_cv2(msg, "bgr8")
         #img = cv2.cvtColor(orig, cv2.COLOR_BGR2GRAY)
         imgDetector(orig,cascade,age_net,gender_net,MODEL_MEAN_VALUES,age_list,gender_list )
     except Exception as err:
@@ -74,9 +75,11 @@ def result_age_gender():
     return result_age, result_gender
 
 if __name__ == '__main__':
-    try:
-        rospy.init_node('img_proc')
-        a = result_age_gender()
-        print(a)
-    except rospy.ROSInterruptException:
-        pass
+    # try:
+    #     rospy.init_node('img_proc')
+    #     a = result_age_gender()
+    #     print(a)
+    # except rospy.ROSInterruptException:
+    #     pass
+    rospy.init_node('img_proc')
+    age_gender_callback(cv2.imread("/home/sobits/catkin_ws/src/human_feature_detect/img1.jpg"))

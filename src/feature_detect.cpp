@@ -8,7 +8,7 @@
 #include <vector>
 #include <string>
 // #include <iostream>
-// #include <limits>
+#include <limits>
 // #include <cmath>
 #include <math.h>
 // #include <typeinfo>
@@ -74,8 +74,6 @@ class FEATURE_SERVER
 int main(int argc, char **argv)
 {
     ros::init(argc, argv, "human_feature_detect");
-    // FEATURE_SERVER feature_server;
-    // ros::spin();
     std::string path;
     std::string user_name = std::getenv("USER");
     path = "/home/" + user_name + "/catkin_ws/src/human_feature_detect/filter/";
@@ -94,38 +92,118 @@ int main(int argc, char **argv)
         return -1;
     }
 
+    std::vector<float> MODEL_MEAN_VALUES = {78.4263377603, 87.7689143744, 114.895847746};
+
     cv::dnn::Net age_net, sex_net;
     age_net = cv::dnn::readNetFromCaffe(age_net_model, age_net_weight);
     sex_net = cv::dnn::readNetFromCaffe(sex_net_model, sex_net_weight);
 
-    // printf("ok\n");
-    // std::cout << age_net << std::endl;
-    // std::cout << sex_net << std::endl;
-    // std::cout << path << std::endl;
+    std::vector<std::string> age_list = {"0 ~ 2","4 ~ 6","8 ~ 12","15 ~ 20","25 ~ 32","38 ~ 43","48 ~ 53","60 ~ 100"};
+    std::vector<std::string> sex_list = {"Male", "Female"};
 
 
+    // std::cout << "okay!" << std::endl;
+    // set up END
 
-
-    sensor_msgs::Image::ConstPtr image_msg;  // 元の画像
-    cv_bridge::CvImagePtr bridge;   // opencvに変換する先
-    try
+    // sensor_msgs::Image::ConstPtr image_msg;  // 元の画像
+    // cv_bridge::CvImagePtr bridge;   // opencvに変換する先
+    // try
+    // {
+    //     bridge = cv_bridge::toCvCopy(image_msg, sensor_msgs::image_encodings::BGR8);
+    // }
+    // catch (cv_bridge::Exception& e)
+    // {
+    //     printf("err\n");
+    //     ROS_ERROR("cv_bridge exception: %s", e.what());
+    //     return -1;
+    // }
+    // cv::Mat image = bridge->image;
+    cv::Mat image = cv::imread("/home/" + user_name + "/catkin_ws/src/human_feature_detect/img1.jpg");
+    if (image.empty())
     {
-        bridge = cv_bridge::toCvCopy(image_msg, sensor_msgs::image_encodings::BGR8);
-    }
-    catch (cv_bridge::Exception& e)
-    {
-        printf("err\n");
-        ROS_ERROR("cv_bridge exception: %s", e.what());
+        std::cout << "画像の読み込みに失敗しました" << std::endl;
         return -1;
     }
-    cv::Mat orig = bridge->image;
+    cv::Mat gray;
+    cv::cvtColor(image, gray, cv::COLOR_BGR2GRAY);
+    std::vector<cv::Rect> results;
+    cascade.detectMultiScale(image, results, 1.1, 5, 0, cv::Size(20,20));
 
 
-    // cascade.detectMultiScale( orig, scaleFactor= 1.1, minNeighbors=5, minSize=(20,20) );
-    // cascade.detectMultiScale(orig, cv::Size(20,20), 1.1, 5, 0, cv::Size());
+    // std::vector<float> index_in(2,0);
+    // std::vector<std::vector<float>> index(results.size(),index_in);
+    // std::cout << results.size() << std::endl;
+    int i = 0;
+    for (const cv::Rect& rect : results)
+    {
+        cv::rectangle(image, rect, cv::Scalar(0, 255, 0), 2);
+        // 切り出す範囲を指定
+        cv::Rect roi(rect.x, rect.y, rect.width, rect.height);  // (x, y, width, height)
 
-    printf("ok!\n");
+        // 指定した範囲で切り出す
+        cv::Mat face = image(roi);
 
+        // 入力画像を指定したサイズにリサイズ
+        cv::Mat resiz_face;
+        cv::resize(face, resiz_face, cv::Size(227, 227));
+
+        // 入力画像をBLOB形式に変換
+        cv::Scalar mean_values(MODEL_MEAN_VALUES[0], MODEL_MEAN_VALUES[1], MODEL_MEAN_VALUES[2]);
+        cv::Mat blob = cv::dnn::blobFromImage(resiz_face, 1.0, cv::Size(227, 227), mean_values, false, false);
+        
+         // ブロブデータをネットワークに入力
+        age_net.setInput(blob);
+        sex_net.setInput(blob);
+
+        // ネットワークの順伝播を実行し、予測結果を取得
+        cv::Mat age_preds = age_net.forward();
+        cv::Mat sex_preds = sex_net.forward();
+
+        
+        int max_index;
+        float max_value;
+        // 予測結果から最も高い確率のインデックスを取得
+        max_index = 0;
+        max_value = age_preds.at<float>(0);
+        for (int i = 1; i < age_preds.rows; i++) {
+            float value = age_preds.at<float>(i);
+            if (value > max_value) {
+                max_index = i;
+                max_value = value;
+            }
+        }
+        // 最大値のインデックスをgenderに代入
+        int age_index = max_index;
+
+
+        // 予測結果から最も高い確率のインデックスを取得
+        max_index = 0;
+        max_value = sex_preds.at<float>(0);
+        for (int i = 1; i < sex_preds.rows; i++) {
+            float value = sex_preds.at<float>(i);
+            if (value > max_value) {
+                max_index = i;
+                max_value = value;
+            }
+        }
+        // 最大値のインデックスをgenderに代入
+        int sex_index = max_index;
+
+        // // 最も高い確率のインデックスを取得
+        // int age_index = max_loc_age.x;
+        // int sex_index = max_loc_sex.x;
+        std::cout << "age = " << age_list[age_index] << ", sex = " << sex_list[sex_index] << std::endl;
+        // std::cout << "age = " << age_list[max_loc_age.y] << ", sex = " << sex_list[max_loc_sex.y] << std::endl;
+        // std::cout << "age = " << age_list[max_loc_age] << ", sex = " << sex_list[max_loc_sex] << std::endl;
+        // printf("\n");
+        // cv::rectangle(image, rect, cv::Scalar(0, 255, 0), 2);
+        // std::cout << "Detection result: x = " << rect.x << ", y = " << rect.y << ", width = " << rect.width << ", height = " << rect.height << std::endl;
+    }
+    cv::Mat resizedImage;
+    cv::resize(image, resizedImage, cv::Size(500, 700));
+    // cv::imshow("Image", image);
+    cv::imshow("Image", resizedImage);
+    cv::waitKey(0);
     return 0;
 }
 
@@ -144,7 +222,7 @@ int main(int argc, char **argv)
 //     }
 
 //     // 画像の読み込み
-//     cv::Mat image = cv::imread("/home/" +user_name + "/catkin_ws/src/image1.jpg");
+//     cv::Mat image = cv::imread("/home/" +user_name + "/catkin_ws/src/human_feature_detect/img1.jpg");
     
 //     // グレースケールに変換
 //     cv::Mat gray;
