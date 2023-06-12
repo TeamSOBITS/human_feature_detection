@@ -1,21 +1,10 @@
 #include <stdio.h>
 #include <ros/ros.h>
-// #include <geometry_msgs/Twist.h>
-// #include <geometry_msgs/Vector3.h>
-// #include <nav_msgs/Odometry.h>
-// #include <sensor_msgs/LaserScan.h>
-// #include <std_msgs/Bool.h>
 #include <vector>
 #include <string>
 #include <iostream>
 #include <limits>
-// #include <cmath>
 #include <math.h>
-// #include <typeinfo>
-// #include <sys/time.h>
-// #include <matplotlib-cpp/matplotlibcpp.h>
-// #include <active_slam/Plot.h>
-// #include <active_slam/MapInformation.h>
 #include <cstdlib>
 #include <opencv2/opencv.hpp>
 #include <cv_bridge/cv_bridge.h>
