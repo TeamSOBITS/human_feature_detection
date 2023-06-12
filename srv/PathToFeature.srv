@@ -1,0 +1,5 @@
+string path
+sobit_common_msg/BoundingBox boundingbox
+---
+bool detect_flag
+Feature feature

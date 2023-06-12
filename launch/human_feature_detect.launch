@@ -1,0 +1,6 @@
+<launch>
+    <node pkg="human_feature_detect" type="feature_detect" name="human_feature_detect" output="screen"/>
+    <param name="MODEL_MEAN_VALUES_0" value="78.4263377603"/>
+    <param name="MODEL_MEAN_VALUES_1" value="87.7689143744"/>
+    <param name="MODEL_MEAN_VALUES_2" value="114.895847746"/>
+</launch>

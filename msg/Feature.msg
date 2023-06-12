@@ -1,0 +1,4 @@
+string sex
+int32 age_lower
+int32 age_uper
+sobit_common_msg/BoundingBox boundingbox

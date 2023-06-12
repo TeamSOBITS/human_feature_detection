@@ -12,6 +12,9 @@ find_package(catkin REQUIRED COMPONENTS OpenCV REQUIRED
   rospy
   std_msgs
   cv_bridge
+  sobit_common_msg
+  sensor_msgs
+  message_generation
 )
 
 ## System dependencies are found with CMake's conventions
@@ -48,18 +51,19 @@ find_package(catkin REQUIRED COMPONENTS OpenCV REQUIRED
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-# add_message_files(
-#   FILES
-#   Message1.msg
-#   Message2.msg
-# )
+add_message_files(
+  FILES
+  Feature.msg
+)
 
 ## Generate services in the 'srv' folder
-# add_service_files(
-#   FILES
-#   Service1.srv
-#   Service2.srv
-# )
+add_service_files(
+  FILES
+  ImageToFeature.srv
+  ImageToFeatures.srv
+  PathToFeature.srv
+  PathToFeatures.srv
+)
 
 ## Generate actions in the 'action' folder
 # add_action_files(
@@ -72,6 +76,8 @@ find_package(catkin REQUIRED COMPONENTS OpenCV REQUIRED
 generate_messages(
   DEPENDENCIES
   std_msgs
+  sensor_msgs
+  sobit_common_msg
 )
 
 ################################################
@@ -106,7 +112,7 @@ generate_messages(
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES human_feature_detect
- CATKIN_DEPENDS roscpp rospy std_msgs cv_bridge
+ CATKIN_DEPENDS roscpp rospy std_msgs cv_bridge sobit_common_msg
 #  DEPENDS system_lib
 )
 
