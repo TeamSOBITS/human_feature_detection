@@ -47,10 +47,19 @@ from human_feature_detect import
 
 def main():
     rospy.init_node('test_human_feature_detect')
+    
+    # ここに特徴を検出したい人が映った画像のパスを書く
+    image = cv2.imread("/home/sobits/catkin_ws/src/human_feature_detect/image.jpg")
+    bridge = CvBridge()
+    image_msg = bridge.cv2_to_imgmsg(image, encoding="bgr8")
+    rospy.wait_for_service("/human_feature_detect/imagedata_features")
+    service = rospy.ServiceProxy("/human_feature_detect/image_features", ImageToFeatures)
+    req = ImageToFeatures()
+    req.image = image_msg
+    res = service(req.image)
+    print(res)
     rospy.spin()
 
 if __name__ == '__main__':
-    try:
-        main()
-    except rospy.ROSInterruptException: pass
+    main()
 ```
