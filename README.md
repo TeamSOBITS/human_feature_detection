@@ -42,7 +42,8 @@ int main(int argc, char **argv)
 ```python
 #!/usr/bin/env python3
 import rospy
-from human_feature_detect import 
+from human_feature_detect.srv import ImageToFeatures
+from human_feature_detect.srv import PathToFeatures
 
 
 def main():
