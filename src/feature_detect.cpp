@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <ros/ros.h>
+#include <ros/package.h>
 #include <vector>
 #include <string>
 #include <iostream>
@@ -42,9 +43,6 @@ class FEATURE_SERVER
             nh.getParam("/MODEL_MEAN_VALUES_0", MODEL_MEAN_VALUES[0]);
             nh.getParam("/MODEL_MEAN_VALUES_1", MODEL_MEAN_VALUES[1]);
             nh.getParam("/MODEL_MEAN_VALUES_2", MODEL_MEAN_VALUES[2]);
-            // MODEL_MEAN_VALUES[0] = 78.4263377603;
-            // MODEL_MEAN_VALUES[1] = 87.7689143744;
-            // MODEL_MEAN_VALUES[2] = 114.895847746;
 
             age_net = cv::dnn::readNetFromCaffe(age_net_model, age_net_weight);
             sex_net = cv::dnn::readNetFromCaffe(sex_net_model, sex_net_weight);
@@ -53,7 +51,6 @@ class FEATURE_SERVER
             {
                 wait_for_call();
             }
-            // nh.getParam("/foo/bar", path);
         }
         bool init_checker(std::string filename)
         {
@@ -105,9 +102,6 @@ class FEATURE_SERVER
             cv::Mat gray;
             cv::cvtColor(image, gray, cv::COLOR_BGR2GRAY);
 
-
-
-
             cv::Rect rect;
             rect.x = req.boundingbox.xmin;
             rect.y = req.boundingbox.ymin;
@@ -158,10 +152,8 @@ class FEATURE_SERVER
 
             // 推論結果を出力
             std::cout << "age = " << age_list[age_index][0] << " ~ " << age_list[age_index][1] << ", sex = " << sex_list[sex_index] << std::endl;
-            // std::cout << "Detection result: x = " << rect.x << ", y = " << rect.y << ", width = " << rect.width << ", height = " << rect.height << std::endl;
 
-
-
+            // 推論結果の返還用に代入
             res.detect_flag = true;
             res.feature.sex = sex_list[sex_index];
             res.feature.age_lower = age_list[age_index][0];
@@ -249,10 +241,8 @@ class FEATURE_SERVER
 
             // 推論結果を出力
             std::cout << "age = " << age_list[age_index][0] << " ~ " << age_list[age_index][1] << ", sex = " << sex_list[sex_index] << std::endl;
-            // std::cout << "Detection result: x = " << rect.x << ", y = " << rect.y << ", width = " << rect.width << ", height = " << rect.height << std::endl;
 
-
-
+            // 推論結果の返還用に代入
             res.detect_flag = true;
             res.feature.sex = sex_list[sex_index];
             res.feature.age_lower = age_list[age_index][0];
@@ -338,8 +328,7 @@ class FEATURE_SERVER
 
                 // 推論結果を出力
                 std::cout << "age = " << age_list[age_index][0] << " ~ " << age_list[age_index][1] << ", sex = " << sex_list[sex_index] << std::endl;
-                // std::cout << "Detection result: x = " << rect.x << ", y = " << rect.y << ", width = " << rect.width << ", height = " << rect.height << std::endl;
-                
+
                 // 推論結果の返還用に代入
                 feature.sex = sex_list[sex_index];
                 feature.age_lower = age_list[age_index][0];
@@ -415,7 +404,6 @@ class FEATURE_SERVER
 
                 // 推論結果を出力
                 std::cout << "age = " << age_list[age_index][0] << " ~ " << age_list[age_index][1] << ", sex = " << sex_list[sex_index] << std::endl;
-                // std::cout << "Detection result: x = " << rect.x << ", y = " << rect.y << ", width = " << rect.width << ", height = " << rect.height << std::endl;
                 
                 // 推論結果の返還用に代入
                 feature.sex = sex_list[sex_index];
@@ -438,5 +426,12 @@ int main(int argc, char **argv)
 {
     ros::init(argc, argv, "human_feature_detect");
     FEATURE_SERVER feature_server;
+    // パッケージ名を指定してパッケージのパスを取得
+    // std::string package_path = ros::package::getPath("human_feature_detect");
+    // std::string package_path = ros::package::getPath("robocup_opl_restaurant");
+    // std::string package_path = ros::package::getPath("rcfr2023_rt");
+
+    // パッケージのパスを表示
+    // ROS_INFO("パッケージのパス: %s", package_path.c_str());
     return 0;
 }
