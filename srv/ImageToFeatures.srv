@@ -1,5 +1,0 @@
-sensor_msgs/Image image
----
-bool detect_flag
-int32 detect_counter
-Feature[] features

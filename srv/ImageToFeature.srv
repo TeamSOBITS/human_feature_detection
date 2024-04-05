@@ -1,5 +1,0 @@
-sensor_msgs/Image image
-sobit_common_msg/BoundingBox boundingbox
----
-bool detect_flag
-Feature feature

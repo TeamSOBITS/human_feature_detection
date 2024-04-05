@@ -1,0 +1,6 @@
+float64 min_range
+float64 max_range
+---
+bool color_success
+float64 height
+string color

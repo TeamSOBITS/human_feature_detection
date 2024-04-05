@@ -1,5 +1,0 @@
-string path
----
-bool detect_flag
-int32 detect_counter
-Feature[] features
