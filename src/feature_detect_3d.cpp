@@ -41,6 +41,7 @@ class HUMAN_FEATURE_DETECT_3D {
         float clothes_range;
         float min_range;
         float max_range;
+        int bightness_value;
 
         void cbPoints(const sensor_msgs::PointCloud2ConstPtr &cloud_msg) {
             pcp_.transformFramePointCloud( target_frame_, cloud_msg, cloud_ );
@@ -99,7 +100,7 @@ class HUMAN_FEATURE_DETECT_3D {
             }
             res.color = decideColor(set_rgb);
             res.height = height*100;
-            ROS_INFO("R = %d, G = %d, B = %d",set_rgb.r, set_rgb.g, set_rgb.b);
+            ROS_INFO("R = %d, G = %d, B = %d",set_rgb.r + bightness_value, set_rgb.g + bightness_value, set_rgb.b + bightness_value);
             ROS_INFO("color = %s",res.color.c_str());
             ROS_INFO("height = %.1f\n", height*100);
             if (res.color.c_str() == "Unknown")
@@ -122,9 +123,9 @@ class HUMAN_FEATURE_DETECT_3D {
         }
         std::string decideColor(RGB rgb)
         {
-            float R = (float)(rgb.r / 256.0);
-            float G = (float)(rgb.g / 256.0);
-            float B = (float)(rgb.b / 256.0);
+            float R = (float)((rgb.r + bightness_value) / 256.0);
+            float G = (float)((rgb.g + bightness_value) / 256.0);
+            float B = (float)((rgb.b + bightness_value) / 256.0);
             printf("\n%f\n",R);
             double Max = std::max({ R, G, B });
             double Min = std::min({ R, G, B });
@@ -261,6 +262,7 @@ class HUMAN_FEATURE_DETECT_3D {
             face_range = pnh_.param<float>( "face_range", 0.20 );
             clothes_range = pnh_.param<float>( "clothes_range", 0.50 );
             target_frame_ = pnh_.param<std::string>( "target_frame", "base_footprint" );
+            bightness_value = pnh_.param<int>( "bightness_value", 0 );
             wait_for_call();
         }
 };
