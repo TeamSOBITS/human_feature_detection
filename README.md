@@ -1,6 +1,6 @@
 <a name="readme-top"></a>
 
-[JP](template_readme.md) | [EN](template_readme_en.md)
+[JP](README.md) | [EN](README_en.md)
 
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
@@ -26,7 +26,7 @@
     </li>
     <li><a href="#実行・操作方法">実行・操作方法</a></li>
     <li><a href="#マイルストーン">マイルストーン</a></li>
-    <li><a href="#変更履歴">変更履歴</a></li>
+    <!-- <li><a href="#変更履歴">変更履歴</a></li> -->
     <!-- <li><a href="#contributing">Contributing</a></li> -->
     <!-- <li><a href="#license">License</a></li> -->
     <li><a href="#参考文献">参考文献</a></li>
@@ -112,6 +112,8 @@ caffemodelが日本人ではないため，日本人の年齢と性別の推定�
     人の顔にバウンディングボックスがあてられ，性別と年齢を推定した結果の画像が出力されました．
     出力された画像は，[sample_image_result.jpg](/images/sample_image_result.jpg)として保存されています．
 
+<p align="right">(<a href="#readme-top">上に戻る</a>)</p>
+
 ### 3次元で行える特徴検出（身長と服の色）
 1. 点群のTopic名を設定します．paramとして[human_feature_detect.launch](/launch/human_feature_detect.launch)ファイルに設定します．
    ```xml
@@ -150,17 +152,14 @@ caffemodelが日本人ではないため，日本人の年齢と性別の推定�
 
 
 <!-- マイルストーン -->
-<!-- ## マイルストーン
+## マイルストーン
 
-- [x] 目標 1
-- [ ] 目標 2
-- [ ] 目標 3
-    - [ ] サブ目標
+- [x] OSS化
+- [ ] README(英語版)の作成
 
-現時点のバッグや新規機能の依頼を確認するために[Issueページ](https://github.com/github_username/repo_name/issues) をご覧ください．
+現時点のバッグや新規機能の依頼を確認するために[Issueページ](issues-url) をご覧ください．
 
-<p align="right">(<a href="#readme-top">上に</a>)</p> -->
-
+<p align="right">(<a href="#readme-top">上に戻る</a>)</p>
 
 
 <!-- 変更履歴 -->
@@ -209,22 +208,23 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <!-- 参考文献 -->
 ## 参考文献
 
-* []()
+* [Joint Face Detection and Alignment using Multi-task Cascaded Convolutional Networks](https://arxiv.org/abs/1604.02878)
+* [DeepFace: Closing the Gap to Human-Level Performance in Face Verification](https://www.cs.toronto.edu/~ranzato/publications/taigman_cvpr14.pdf)
 
 <p align="right">(<a href="#readme-top">上に戻る</a>)</p>
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/github_username/repo_name.svg?style=for-the-badge
-[contributors-url]: https://github.com/github_username/repo_name/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/github_username/repo_name.svg?style=for-the-badge
-[forks-url]: https://github.com/github_username/repo_name/network/members
-[stars-shield]: https://img.shields.io/github/stars/github_username/repo_name.svg?style=for-the-badge
-[stars-url]: https://github.com/github_username/repo_name/stargazers
-[issues-shield]: https://img.shields.io/github/issues/github_username/repo_name.svg?style=for-the-badge
-[issues-url]: https://github.com/github_username/repo_name/issues
-<!-- [license-shield]: https://img.shields.io/github/license/github_username/repo_name.svg?style=for-the-badge
-[license-url]: https://github.com/github_username/repo_name/blob/master/LICENSE.txt -->
+[contributors-shield]: https://img.shields.io/github/contributors/TeamSOBITS/human_feature_detect.svg?style=for-the-badge
+[contributors-url]: https://github.com/TeamSOBITS/human_feature_detect/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/TeamSOBITS/human_feature_detect.svg?style=for-the-badge
+[forks-url]: https://github.com/TeamSOBITS/human_feature_detect/network/members
+[stars-shield]: https://img.shields.io/github/stars/TeamSOBITS/human_feature_detect.svg?style=for-the-badge
+[stars-url]: https://github.com/TeamSOBITS/human_feature_detect/stargazers
+[issues-shield]: https://img.shields.io/github/issues/TeamSOBITS/human_feature_detect.svg?style=for-the-badge
+[issues-url]: https://github.com/TeamSOBITS/human_feature_detect/issues
+<!-- [license-shield]: https://img.shields.io/github/license/TeamSOBITS/human_feature_detect.svg?style=for-the-badge
+[license-url]: https://github.com/TeamSOBITS/human_feature_detect/blob/master/LICENSE.txt -->
 
 
 ## Example Code
@@ -295,6 +295,9 @@ int main(int argc, char** argv) {
     return 0;
 }
 ```
+
+<p align="right">(<a href="#readme-top">上に戻る</a>)</p>
+
 </details>
 
 <details><summary>Python</summary>
@@ -349,3 +352,7 @@ def main():
 if __name__ == '__main__':
     main()
 ```
+
+<p align="right">(<a href="#readme-top">上に戻る</a>)</p>
+
+</details>
