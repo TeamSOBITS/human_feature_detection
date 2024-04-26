@@ -223,8 +223,8 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 [stars-url]: https://github.com/TeamSOBITS/human_feature_detect/stargazers
 [issues-shield]: https://img.shields.io/github/issues/TeamSOBITS/human_feature_detect.svg?style=for-the-badge
 [issues-url]: https://github.com/TeamSOBITS/human_feature_detect/issues
-<!-- [license-shield]: https://img.shields.io/github/license/TeamSOBITS/human_feature_detect.svg?style=for-the-badge
-[license-url]: https://github.com/TeamSOBITS/human_feature_detect/blob/master/LICENSE.txt -->
+[license-shield]: https://img.shields.io/github/license/TeamSOBITS/human_feature_detect.svg?style=for-the-badge
+[license-url]: LICENSE
 
 
 ## Example Code
