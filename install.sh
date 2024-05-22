@@ -1,6 +1,4 @@
 #!/bin/bash
-# 参考①：https://demikko-no-bibouroku.hatenablog.com/entry/2020/08/11/015340
-
 
 echo "╔══╣ Install: Human Feature Detect (STARTING) ╠══╗"
 
