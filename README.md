@@ -40,10 +40,9 @@
 
 <!-- [![Product Name Screen Shot][product-screenshot]](https://example.com) -->
 
-写真から人の特徴を推論するパッケージです．\
-APIを使用しないため，ネットワークなしで，オフラインの推論が行えます．/
-ROSのService通信を用いて特徴を検出します．\
-caffemodelが日本人ではないため，日本人の年齢と性別の推定には精度が低いです．
+画像や点群から人の特徴を推論するパッケージです．\
+APIなどのネットワークを使用しないため，ネットワークなしで，オフラインの推論が行えます．\
+画像や点群を入力値として推定返り値とするため，ROSのService通信を用いて特徴を検出します．
 
 <p align="right">(<a href="#readme-top">上に戻る</a>)</p>
 
@@ -65,26 +64,26 @@ caffemodelが日本人ではないため，日本人の年齢と性別の推定�
 ### インストール方法
 
 1. ROSの`src`フォルダに移動します．
-   ```sh
+  ```sh
    $ cd　~/catkin_ws/src/
-   ```
+  ```
 2. 本レポジトリをcloneします．
-   ```sh
+  ```sh
    $ git clone https://github.com/TeamSOBITS/human_feature_detect.git
-   ```
+  ```
 3. レポジトリの中へ移動します．
-   ```sh
+  ```sh
    $ cd human_feature_detect
-   ```
+  ```
 4. 依存パッケージをインストールします．
-   ```sh
+  ```sh
    $ bash install.sh
-   ```
+  ```
 5. パッケージをコンパイルします．
-   ```sh
+  ```sh
    $ cd ~/catkin_ws/
    $ catkin_make
-   ```
+  ```
 
 <p align="right">(<a href="#readme-top">上に戻る</a>)</p>
 
@@ -94,38 +93,44 @@ caffemodelが日本人ではないため，日本人の年齢と性別の推定�
 ## 実行・操作方法
 ### 2次元で行える特徴検出（性別と年齢）
 <!-- デモの実行方法やスクリーンショットがあるとわかりやすくなるでしょう -->
-1. [human_feature_detect.launch](/launch/human_feature_detect.launch)というlaunchファイルを実行します．
+1. なんらかのカメラを起動する
+    Topicとしてsensor_msgs/Image型が出ればどのカメラでも構いません．\
+    例として，PCに付いているカメラを起動させてみる方法を以下に記述する．
+    ```sh
+    $ roslaunch usb_cam usb_cam-test.launch
+    ```
+    これが上手く行かない場合は，カメラが存在しないPCかubuntu上でカメラが使えないPCの可能性が高いので，USB接続でROS通信ができるカメラを起動する．
+2. [human_feature_detect.launch](/launch/human_feature_detect.launch)というlaunchファイルを実行します．
     ```sh
     $ roslaunch human_feature_detect human_feature_detect.launch
     ```
     これによって，画像から推論を行えるROSのService通信のServerが起動します．
-2. [任意] imagesフォルダにあるサンプル画像([sample_image.jpg](/images/sample_image.jpg))を使って推論をしてみましょう．
-    exampleコードを準備したので，それを使っていきます．
-   1. Pythonの場合
-        ```sh
-        $ rosrun human_feature_detect sample_2d.py
-        ```
-   2. C++の場合
-        ```sh
-        $ rosrun human_feature_detect sample_2d
-        ```
-    人の顔にバウンディングボックスがあてられ，性別と年齢を推定した結果の画像が出力されました．
-    出力された画像は，[sample_image_result.jpg](/images/sample_image_result.jpg)として保存されています．
+3. [任意]TopicにPublishされているImageを送ってみる
+    exampleコードを準備したのでそれを使っていきます．\
+    [example/sample_2d.py](example/sample_2d.py)にある19行目のTopic名を「1.」で起動したカメラのTopic名に変更する．\
+    そのままでは，「/camera/rgb/image_raw」になっていて，主にxtionなどのカメラのTopic名となっている．\
+    以下のコマンドを実行すると，3秒のカウントダウンの後に写っていた画像についての推論を行う．（カウントダウンが開始されない場合，カメラが起動していないかTopic名が間違えている可能性があります）
+    ```sh
+    $ rosrun human_feature_detect sample_2d.py
+    ```
+    ターミナルに，検出した人数と，それぞれの年齢と性別，表情が出力されました．\
+    ちなみにこの結果を反映させた画像は，[result.png](/images/result.png)としてimagesフォルダの中に保存されていますので確認してみてください．
 
 <p align="right">(<a href="#readme-top">上に戻る</a>)</p>
 
 ### 3次元で行える特徴検出（身長と服の色）
-1. 点群のTopic名を設定します．paramとして[human_feature_detect.launch](/launch/human_feature_detect.launch)ファイルに設定します．
-   ```xml
+1. 点群のTopic名を設定する
+  paramとして[human_feature_detect.launch](/launch/human_feature_detect.launch)ファイルの6行目に設定します．\
+  例として，azure kinectの点群名である/points2に設定しています．
+  ```xml
     <param name="topic_name" value="/points2"/>
-    ...
-   ```
-   他のパラメータについて
-   ```
-    <param name="target_frame" value="base_footprint"/>　　<!-- ロボットの基準フレーム。これによって身長を地面を基準とする頭の高さとできる -->
+  ```
+  他のパラメータについて
+  ```
+    <param name="target_frame" value="base_footprint"/>　 <!-- ロボットの基準フレーム。これによって身長を地面を基準とする頭の高さとできる -->
     <param name="face_range" value="0.20"/>               <!-- 顔の大体の大きさ。服の色を測る際に頭の先からどれだけ下の点群を参照するか -->
     <param name="clothes_range" value="0.35"/>            <!-- 服のおおよその縦幅。服の色を測る際、どれだけ広範囲を参照するか -->
-   ```
+  ```
 2. 設定が完了したら，[human_feature_detect.launch](/launch/human_feature_detect.launch)というlaunchファイルを実行します．
     ```sh
     $ roslaunch human_feature_detect human_feature_detect.launch

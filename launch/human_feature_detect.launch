@@ -1,3 +1,4 @@
+<!-- human_feature_detect.launch -->
 <launch>
     <node pkg="human_feature_detect" type="feature_detect.py" name="feature_detect" output="screen"/>
 
