@@ -93,7 +93,7 @@ APIなどのネットワークを使用しないため，ネットワークな�
 ## 実行・操作方法
 ### 2次元で行える特徴検出（性別と年齢）
 <!-- デモの実行方法やスクリーンショットがあるとわかりやすくなるでしょう -->
-1. なんらかのカメラを起動する
+1. なんらかのカメラを起動する\
     Topicとしてsensor_msgs/Image型が出ればどのカメラでも構いません．\
     例として，PCに付いているカメラを起動させてみる方法を以下に記述する．
     ```sh
@@ -105,7 +105,7 @@ APIなどのネットワークを使用しないため，ネットワークな�
     $ roslaunch human_feature_detect human_feature_detect.launch
     ```
     これによって，画像から推論を行えるROSのService通信のServerが起動します．
-3. [任意]TopicにPublishされているImageを送ってみる
+3. [任意]TopicにPublishされているImageを送ってみる\
     exampleコードを準備したのでそれを使っていきます．\
     [example/sample_2d.py](example/sample_2d.py)にある19行目のTopic名を「1.」で起動したカメラのTopic名に変更する．\
     そのままでは，「/camera/rgb/image_raw」になっていて，主にxtionなどのカメラのTopic名となっている．\
@@ -119,9 +119,9 @@ APIなどのネットワークを使用しないため，ネットワークな�
 <p align="right">(<a href="#readme-top">上に戻る</a>)</p>
 
 ### 3次元で行える特徴検出（身長と服の色）
-1. 点群をPublishすることのできるカメラを起動する
+1. 点群をPublishすることのできるカメラを起動する\
   depthカメラを起動してください．
-2. 点群のTopic名を設定する
+2. 点群のTopic名を設定する\
   paramとして[human_feature_detect.launch](/launch/human_feature_detect.launch)ファイルの6行目に，「1.」のTopic名に設定します．\
   例として，azure kinectの点群名である/points2に設定しています．
   ```xml
@@ -138,7 +138,7 @@ APIなどのネットワークを使用しないため，ネットワークな�
    $ roslaunch human_feature_detect human_feature_detect.launch
   ```
   これによって，点群から推論を行えるROSのService通信のServerが起動します．
-4. [任意]指定した点群をリクエストしてみる
+4. [任意]指定した点群をリクエストしてみる\
   exampleコードを準備したので，それを使っていきます．\
   3次元での推論をする場合は，カメラの前方1メートルあたりに立ってください．
   ```sh
