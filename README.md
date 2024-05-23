@@ -119,8 +119,10 @@ APIなどのネットワークを使用しないため，ネットワークな�
 <p align="right">(<a href="#readme-top">上に戻る</a>)</p>
 
 ### 3次元で行える特徴検出（身長と服の色）
-1. 点群のTopic名を設定する
-  paramとして[human_feature_detect.launch](/launch/human_feature_detect.launch)ファイルの6行目に設定します．\
+1. 点群をPublishすることのできるカメラを起動する
+  depthカメラを起動してください．
+2. 点群のTopic名を設定する
+  paramとして[human_feature_detect.launch](/launch/human_feature_detect.launch)ファイルの6行目に，「1.」のTopic名に設定します．\
   例として，azure kinectの点群名である/points2に設定しています．
   ```xml
     <param name="topic_name" value="/points2"/>
@@ -131,22 +133,19 @@ APIなどのネットワークを使用しないため，ネットワークな�
     <param name="face_range" value="0.20"/>               <!-- 顔の大体の大きさ。服の色を測る際に頭の先からどれだけ下の点群を参照するか -->
     <param name="clothes_range" value="0.35"/>            <!-- 服のおおよその縦幅。服の色を測る際、どれだけ広範囲を参照するか -->
   ```
-2. 設定が完了したら，[human_feature_detect.launch](/launch/human_feature_detect.launch)というlaunchファイルを実行します．
-    ```sh
-    $ roslaunch human_feature_detect human_feature_detect.launch
-    ```
-    これによって，点群から推論を行えるROSのService通信のServerが起動します．
-3. [任意] imagesフォルダにあるサンプル画像([sample_image.jpg](/images/sample_image.jpg))を使って推論をしてみましょう．
-    exampleコードを準備したので，それを使っていきます．
-   1. Pythonの場合
-        ```sh
-        $ rosrun human_feature_detect sample_3d.py
-        ```
-   2. C++の場合
-        ```sh
-        $ rosrun human_feature_detect sample_3d
-        ```
-    ターミナルに，身長と服の色が出力されました．
+3. 設定が完了したら，[human_feature_detect.launch](/launch/human_feature_detect.launch)というlaunchファイルを実行します．
+  ```sh
+   $ roslaunch human_feature_detect human_feature_detect.launch
+  ```
+  これによって，点群から推論を行えるROSのService通信のServerが起動します．
+4. [任意]指定した点群をリクエストしてみる
+  exampleコードを準備したので，それを使っていきます．\
+  3次元での推論をする場合は，カメラの前方1メートルあたりに立ってください．
+  ```sh
+   $ rosrun human_feature_detect sample_3d.py
+  ```
+  ターミナルに，身長と服の色が出力されました．\
+  出力されない場合，「2.」で設定した点群名(topic_name)や基準のフレーム名(target_frame)が間違っている可能性が高いです．
 
 > [!NOTE]
 > このexampleコードを使えば，ロボットのカメラから得た画像や点群から，データをServiceのServerに送信することで，人の特徴を推定することができます．\
@@ -230,133 +229,6 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 [issues-url]: https://github.com/TeamSOBITS/human_feature_detect/issues
 [license-shield]: https://img.shields.io/github/license/TeamSOBITS/human_feature_detect.svg?style=for-the-badge
 [license-url]: LICENSE
-
-
-## Example Code
-<details><summary>C++</summary>
-
-## C++
-```cpp
-#include <stdio.h>
-#include <ros/ros.h>
-#include <cstdlib>
-#include <opencv2/opencv.hpp>
-#include <opencv2/highgui/highgui.hpp>
-#include <cv_bridge/cv_bridge.h>
-#include <vector>
-#include <string>
-#include <iostream>
-#include <sensor_msgs/Image.h>
-#include <human_feature_detect/Features.h>
-
-int main(int argc, char** argv) {
-    ros::init(argc, argv, "human_feature_detect_sample_2d");
-    std::string home_path = getenv("HOME"); // ここにターミナルのhomeディレクトリまでのパスが代入  ex) home_path = "/home/sobits"
-
-    // 写真をopencvで読み込む。home_path + catkin_ws以降の写真ホルダーまでのパスを入力
-    std::string picture_file_path = home_path + "/catkin_ws/src/human_feature_detect/images/sample_image.jpg";
-    cv::Mat picture = cv::imread(picture_file_path);
-    ros::spinOnce();
-    cv_bridge::CvImage cv_image;
-
-    // 写真の型(BGR型)から、ROSで通信を行える型(sensor_msgs/Image型)に変換する
-    cv_image.encoding = sensor_msgs::image_encodings::BGR8;
-    cv_image.image = picture;
-
-    // 特徴(年齢と性別)を取得してくれるServiceのサーバーが立ち上がったら接続される定義をする
-    ros::NodeHandle nh;
-    ros::ServiceClient service = nh.serviceClient<human_feature_detect::Features>("/human_feature_detect/features");
-
-    // サーバーに送信するデータを作成する
-    human_feature_detect::Features srv;
-    srv.request.input_image = *cv_image.toImageMsg();
-
-    // サーバーが立ち上がったらROSのメッセージにした写真をサーバーに送信
-    while (ros::ok()) {
-        if (service.call(srv)) break;
-        else {
-            ros::spinOnce();
-            continue;
-        }
-    }
-
-    // 返答されたデータから、テキストで出力する(例)
-    printf("検出された人数は%ld人です。\n\n",srv.response.features.size());
-    for (int i=0; i<srv.response.features.size(); i++) {
-        printf("%d人目の人は、性別は%sで、\n", (i+1), srv.response.features[i].sex.c_str());
-        printf("年齢は%d歳から%d歳くらいです。\n\n", srv.response.features[i].age_lower, srv.response.features[i].age_uper);
-    }
-
-    // 返答されたデータから、画像を出力する方法
-    // 返答されたROSのメッセージの型(sensor_msgs/Image型)から写真の型(BGR型)に変換する。
-    cv_bridge::CvImageConstPtr cv_ptr = cv_bridge::toCvCopy(srv.response.result_image, sensor_msgs::image_encodings::BGR8);
-    cv::Mat output_image = cv_ptr->image;
-    for (int i=0; i<4; i++) picture_file_path.pop_back();
-    cv::imwrite(picture_file_path + "_result.jpg", output_image);
-    cv::imshow("result_image", output_image);
-    cv::waitKey(100);
-    ros::spinOnce();
-    ros::spin();
-    return 0;
-}
-```
-
-<p align="right">(<a href="#readme-top">上に戻る</a>)</p>
-
-</details>
-
-<details><summary>Python</summary>
-
-## Python
-
-```python
-#!/usr/bin/env python3
-import rospy
-from os.path import expanduser
-import cv2
-from cv_bridge import CvBridge
-from sensor_msgs.msg import Image
-from human_feature_detect.srv import Features
-
-def main():
-    rospy.init_node("human_feature_detect_sample_2d")
-    home_path = expanduser("~") # ここにターミナルのhomeディレクトリまでのパスが代入  ex) home_path = "/home/sobits"
-
-    # 写真をopencvで読み込む。home_path + catkin_ws以降の写真ホルダーまでのパスを入力
-    picture_file_path = home_path + "/catkin_ws/src/human_feature_detect/images/sample_image.jpg"
-    picture = cv2.imread(picture_file_path)
-    bridge = CvBridge()
-
-    # 写真の型(BGR型)から、ROSで通信を行える型(sensor_msgs/Image型)に変換する
-    image_msg = bridge.cv2_to_imgmsg(picture, encoding="bgr8")
-
-    # 特徴(年齢と性別)を取得してくれるServiceのサーバーが立ち上がるまで待つ
-    rospy.wait_for_service("/human_feature_detect/features")
-    # サーバーが立ち上がったらこちら側でクライアントとして定義する
-    service = rospy.ServiceProxy("/human_feature_detect/features", Features)
-
-    # ROSのメッセージにした写真をサーバーに送信。返答結果はresponseに代入される
-    response = service(image_msg)
-
-    # 返答されたデータから、テキストで出力する(例)
-    print("検出された人数は" + str(len(response.features)) + "人です。\n")
-    for i in range(len(response.features)):
-        print(str(i+1) + "人目の人は、性別は" + str(response.features[i].sex) + "で、")
-        print("年齢は" + str(response.features[i].age_lower) + "歳から" + str(response.features[i].age_uper) + "歳くらいです。\n")
-    
-    # 返答されたデータから、画像を出力する方法
-    # 返答されたROSのメッセージの型(sensor_msgs/Image型)から写真の型(BGR型)に変換する。
-    output_image = bridge.imgmsg_to_cv2(response.result_image, desired_encoding="bgr8")
-    # 写真が保存されていたところに、バウンディングボックスをつけた返答画像も保存する。
-    cv2.imwrite(picture_file_path[:-4] + "_result.jpg", output_image)
-    # 画像を表示
-    cv2.imshow("result_image", output_image)
-    cv2.waitKey(0)
-    rospy.spin()
-
-if __name__ == '__main__':
-    main()
-```
 
 <p align="right">(<a href="#readme-top">上に戻る</a>)</p>
 

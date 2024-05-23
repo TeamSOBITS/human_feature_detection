@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 import rospy
 from os.path import expanduser
 from sensor_msgs.msg import Image
