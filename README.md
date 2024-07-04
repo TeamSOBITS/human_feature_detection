@@ -64,11 +64,11 @@ APIなどのネットワークを使用しないため，ネットワークな�
   ```
 2. 本レポジトリをcloneします．
   ```sh
-   $ git clone https://github.com/TeamSOBITS/human_feature_detect.git
+   $ git clone https://github.com/TeamSOBITS/human_feature_detection.git
   ```
 3. レポジトリの中へ移動します．
   ```sh
-   $ cd human_feature_detect
+   $ cd human_feature_detection
   ```
 4. 依存パッケージをインストールします．
   ```sh
@@ -95,9 +95,9 @@ APIなどのネットワークを使用しないため，ネットワークな�
     $ roslaunch usb_cam usb_cam-test.launch
     ```
     これが上手く行かない場合は，カメラが存在しないPCかubuntu上でカメラが使えないPCの可能性が高いので，USB接続でROS通信ができるカメラを起動する．
-2. [human_feature_detect.launch](/launch/human_feature_detect.launch)というlaunchファイルを実行します．
+2. [human_feature_detection.launch](/launch/human_feature_detection.launch)というlaunchファイルを実行します．
     ```sh
-    $ roslaunch human_feature_detect human_feature_detect.launch
+    $ roslaunch human_feature_detection human_feature_detection.launch
     ```
     これによって，画像から推論を行えるROSのService通信のServerが起動します．
 3. [任意]TopicにPublishされているImageを送ってみる\
@@ -106,7 +106,7 @@ APIなどのネットワークを使用しないため，ネットワークな�
     そのままでは，「/camera/rgb/image_raw」になっていて，主にxtionなどのカメラのTopic名となっている．\
     以下のコマンドを実行すると，3秒のカウントダウンの後に写っていた画像についての推論を行う．（カウントダウンが開始されない場合，カメラが起動していないかTopic名が間違えている可能性があります）
     ```sh
-    $ rosrun human_feature_detect sample_2d.py
+    $ rosrun human_feature_detection sample_2d.py
     ```
     ターミナルに，検出した人数と，それぞれの年齢と性別，表情が出力されました．\
     ちなみにこの結果を反映させた画像は，[result.png](/images/result.png)としてimagesフォルダの中に保存されていますので確認してみてください．
@@ -117,7 +117,7 @@ APIなどのネットワークを使用しないため，ネットワークな�
 1. 点群をPublishすることのできるカメラを起動する\
   depthカメラを起動してください．
 2. 点群のTopic名を設定する\
-  paramとして[human_feature_detect.launch](/launch/human_feature_detect.launch)ファイルの6行目に，「1.」のTopic名に設定します．\
+  paramとして[human_feature_detection.launch](/launch/human_feature_detection.launch)ファイルの6行目に，「1.」のTopic名に設定します．\
   例として，azure kinectの点群名である/points2に設定しています．
   ```xml
     <param name="topic_name" value="/points2"/>
@@ -128,16 +128,16 @@ APIなどのネットワークを使用しないため，ネットワークな�
     <param name="face_range" value="0.20"/>               <!-- 顔の大体の大きさ。服の色を測る際に頭の先からどれだけ下の点群を参照するか -->
     <param name="clothes_range" value="0.35"/>            <!-- 服のおおよその縦幅。服の色を測る際、どれだけ広範囲を参照するか -->
   ```
-3. 設定が完了したら，[human_feature_detect.launch](/launch/human_feature_detect.launch)というlaunchファイルを実行します．
+3. 設定が完了したら，[human_feature_detection.launch](/launch/human_feature_detection.launch)というlaunchファイルを実行します．
   ```sh
-   $ roslaunch human_feature_detect human_feature_detect.launch
+   $ roslaunch human_feature_detection human_feature_detection.launch
   ```
   これによって，点群から推論を行えるROSのService通信のServerが起動します．
 4. [任意]指定した点群をリクエストしてみる\
   exampleコードを準備したので，それを使っていきます．\
   3次元での推論をする場合は，カメラの前方1メートルあたりに立ってください．
   ```sh
-   $ rosrun human_feature_detect sample_3d.py
+   $ rosrun human_feature_detection sample_3d.py
   ```
   ターミナルに，身長と服の色が出力されました．\
   出力されない場合，「2.」で設定した点群名(topic_name)や基準のフレーム名(target_frame)が間違っている可能性が高いです．
@@ -150,11 +150,11 @@ APIなどのネットワークを使用しないため，ネットワークな�
 ### Service Server
 - 2次元画像での推論(年齢と性別)をする場合
 ```
-/human_feature_detect/features (human_feature_detect/Features)
+/human_feature_detection/features (human_feature_detection/Features)
 ```
 - 3次元点群での推論(身長と服の色)をする場合
 ```
-/human_feature_detect/feature3d (human_feature_detect/Feature3d)
+/human_feature_detection/feature3d (human_feature_detection/Feature3d)
 ```
 
 
@@ -219,15 +219,15 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/TeamSOBITS/human_feature_detect.svg?style=for-the-badge
-[contributors-url]: https://github.com/TeamSOBITS/human_feature_detect/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/TeamSOBITS/human_feature_detect.svg?style=for-the-badge
-[forks-url]: https://github.com/TeamSOBITS/human_feature_detect/network/members
-[stars-shield]: https://img.shields.io/github/stars/TeamSOBITS/human_feature_detect.svg?style=for-the-badge
-[stars-url]: https://github.com/TeamSOBITS/human_feature_detect/stargazers
-[issues-shield]: https://img.shields.io/github/issues/TeamSOBITS/human_feature_detect.svg?style=for-the-badge
-[issues-url]: https://github.com/TeamSOBITS/human_feature_detect/issues
-[license-shield]: https://img.shields.io/github/license/TeamSOBITS/human_feature_detect.svg?style=for-the-badge
+[contributors-shield]: https://img.shields.io/github/contributors/TeamSOBITS/human_feature_detection.svg?style=for-the-badge
+[contributors-url]: https://github.com/TeamSOBITS/human_feature_detection/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/TeamSOBITS/human_feature_detection.svg?style=for-the-badge
+[forks-url]: https://github.com/TeamSOBITS/human_feature_detection/network/members
+[stars-shield]: https://img.shields.io/github/stars/TeamSOBITS/human_feature_detection.svg?style=for-the-badge
+[stars-url]: https://github.com/TeamSOBITS/human_feature_detection/stargazers
+[issues-shield]: https://img.shields.io/github/issues/TeamSOBITS/human_feature_detection.svg?style=for-the-badge
+[issues-url]: https://github.com/TeamSOBITS/human_feature_detection/issues
+[license-shield]: https://img.shields.io/github/license/TeamSOBITS/human_feature_detection.svg?style=for-the-badge
 [license-url]: LICENSE
 
 <p align="right">(<a href="#readme-top">上に戻る</a>)</p>

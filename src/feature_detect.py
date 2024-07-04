@@ -8,15 +8,15 @@ from cv_bridge import CvBridge
 from sensor_msgs.msg import Image
 from mtcnn.mtcnn import MTCNN
 from deepface import DeepFace
-from human_feature_detect.srv import Features, FeaturesResponse
-from human_feature_detect.msg import Feature
+from human_feature_detection.srv import Features, FeaturesResponse
+from human_feature_detection.msg import Feature
 import roslib.packages
 
 
 class FEATURE_SERVER:
     def model_load(self):
         self.detector = MTCNN()
-        path = roslib.packages.get_pkg_dir("human_feature_detect")
+        path = roslib.packages.get_pkg_dir("human_feature_detection")
         image = cv2.imread(path + "/images/sample_image.png")
         face_locations = self.detect_faces(image)
         for index, face_location in enumerate(face_locations):
@@ -31,7 +31,7 @@ class FEATURE_SERVER:
             h = bbox.boundingbox.size_y
             cv2.rectangle(copied_image, (x, y), (x + w, y + h), (0, 255, 0), 2)
             cv2.putText(copied_image, name, (x, y - 4), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
-        path = roslib.packages.get_pkg_dir("human_feature_detect")
+        path = roslib.packages.get_pkg_dir("human_feature_detection")
         cv2.imwrite(path + '/images/result.png', copied_image)
         bridge = CvBridge()
         return (bridge.cv2_to_imgmsg(copied_image))
@@ -78,7 +78,7 @@ class FEATURE_SERVER:
 
     def wait_server(self):
         self.model_load()
-        rospy.Service("/human_feature_detect/features", Features, self.human_features_callback)
+        rospy.Service("/human_feature_detection/features", Features, self.human_features_callback)
         rospy.loginfo("Waiting for service...")
         rospy.spin()
 

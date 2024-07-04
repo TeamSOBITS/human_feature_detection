@@ -62,13 +62,13 @@ This section describes how to set up this repository.
    ```sh
    $ cd ~/catkin_ws/src
    ```
-2. clone TeamSOBITS/human_feature_detect
+2. clone TeamSOBITS/human_feature_detection
    ```sh
-   $ git clone https://github.com/TeamSOBITS/human_feature_detect.git
+   $ git clone https://github.com/TeamSOBITS/human_feature_detection.git
    ```
 3. Change directory
    ```sh
-   $ cd human_feature_detect/
+   $ cd human_feature_detection/
    ```
 4. Install dependent packages
    ```sh
@@ -95,9 +95,9 @@ This section describes how to set up this repository.
     $ roslaunch usb_cam usb_cam-test.launch
     ```
     If this does not work, it is most likely that the PC does not have a camera or the camera is not available on ubuntu, so start a camera that can communicate with ROS via USB connection.
-2. Launch the [human_feature_detect.launch](/launch/human_feature_detect.launch)
+2. Launch the [human_feature_detection.launch](/launch/human_feature_detection.launch)
     ```sh
-    $ roslaunch human_feature_detect human_feature_detect.launch
+    $ roslaunch human_feature_detection human_feature_detection.launch
     ```
     This activates the Server for ROS Service communication, which allows inference from images.
 3. [Optional]Let's try to send an Image that has been Published to Topic.\
@@ -106,7 +106,7 @@ This section describes how to set up this repository.
     As it is, it is “/camera/rgb/image_raw”, which is mainly an example of an xtion camera.\
     The following commands will cause an inference to be made about the image that was captured after the 3-second countdown. (If the countdown does not start, the camera may not be activated or the Topic name may be incorrect.)
     ```sh
-    $ rosrun human_feature_detect sample_2d.py
+    $ rosrun human_feature_detection sample_2d.py
     ```
     The terminal outputs the number of people detected, their age, sex, and facial expressions.\
     The resulting images are stored at the [result.png](/images/result.png).
@@ -117,7 +117,7 @@ This section describes how to set up this repository.
 1. Launch the RGB-D camera\
   Please activate the depth camera.
 2. Set the Topic name of the point cloud\
-  In the sixth line of the [human_feature_detect.launch](/launch/human_feature_detect.launch) file, as a “param”, match the Topic name.\
+  In the sixth line of the [human_feature_detection.launch](/launch/human_feature_detection.launch) file, as a “param”, match the Topic name.\
   The following example is for /points2, the azure kinect point cloud name.
   ```xml
     <param name="topic_name" value="/points2"/>
@@ -128,16 +128,16 @@ This section describes how to set up this repository.
     <param name="face_range" value="0.20"/>               <!-- The approximate size of the face. How far down the point cloud from the tip of the head is referenced when measuring clothing color. -->
     <param name="clothes_range" value="0.35"/>            <!-- The approximate length of the clothing. How wide an area is referenced when measuring the color of a garment. -->
   ```
-3. Launch the [human_feature_detect.launch](/launch/human_feature_detect.launch)
+3. Launch the [human_feature_detection.launch](/launch/human_feature_detection.launch)
   ```sh
-   $ roslaunch human_feature_detect human_feature_detect.launch
+   $ roslaunch human_feature_detection human_feature_detection.launch
   ```
   This activates the Server for Service communication in ROS, which allows inference from point clouds.
 4. [Optional]Let's request a specified point cloud\
   run the example.\
   For 3D inference, stand 1 meter in front of the camera.
   ```sh
-   $ rosrun human_feature_detect sample_3d.py
+   $ rosrun human_feature_detection sample_3d.py
   ```
   The terminal outputs height and clothing color.\
   If it is not output, it is most likely that the point cloud name (topic_name) or reference frame name (target_frame) is incorrect.
@@ -150,11 +150,11 @@ This section describes how to set up this repository.
 ### Service Server
 - When reasoning with 2D images(Sex and Age)
 ```
-/human_feature_detect/features (human_feature_detect/Features)
+/human_feature_detection/features (human_feature_detection/Features)
 ```
 - When reasoning with 3D images(height and clothing color)
 ```
-/human_feature_detect/feature3d (human_feature_detect/Feature3d)
+/human_feature_detection/feature3d (human_feature_detection/Feature3d)
 ```
 
 
@@ -219,15 +219,15 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/TeamSOBITS/human_feature_detect.svg?style=for-the-badge
-[contributors-url]: https://github.com/TeamSOBITS/human_feature_detect/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/TeamSOBITS/human_feature_detect.svg?style=for-the-badge
-[forks-url]: https://github.com/TeamSOBITS/human_feature_detect/network/members
-[stars-shield]: https://img.shields.io/github/stars/TeamSOBITS/human_feature_detect.svg?style=for-the-badge
-[stars-url]: https://github.com/TeamSOBITS/human_feature_detect/stargazers
-[issues-shield]: https://img.shields.io/github/issues/TeamSOBITS/human_feature_detect.svg?style=for-the-badge
-[issues-url]: https://github.com/TeamSOBITS/human_feature_detect/issues
-[license-shield]: https://img.shields.io/github/license/TeamSOBITS/human_feature_detect.svg?style=for-the-badge
+[contributors-shield]: https://img.shields.io/github/contributors/TeamSOBITS/human_feature_detection.svg?style=for-the-badge
+[contributors-url]: https://github.com/TeamSOBITS/human_feature_detection/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/TeamSOBITS/human_feature_detection.svg?style=for-the-badge
+[forks-url]: https://github.com/TeamSOBITS/human_feature_detection/network/members
+[stars-shield]: https://img.shields.io/github/stars/TeamSOBITS/human_feature_detection.svg?style=for-the-badge
+[stars-url]: https://github.com/TeamSOBITS/human_feature_detection/stargazers
+[issues-shield]: https://img.shields.io/github/issues/TeamSOBITS/human_feature_detection.svg?style=for-the-badge
+[issues-url]: https://github.com/TeamSOBITS/human_feature_detection/issues
+[license-shield]: https://img.shields.io/github/license/TeamSOBITS/human_feature_detection.svg?style=for-the-badge
 [license-url]: LICENSE
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

@@ -1,8 +1,8 @@
-<!-- human_feature_detect.launch -->
+<!-- human_feature_detection.launch -->
 <launch>
-    <node pkg="human_feature_detect" type="feature_detect.py" name="feature_detect" output="screen"/>
+    <node pkg="human_feature_detection" type="feature_detect.py" name="feature_detect" output="screen"/>
 
-    <node pkg="human_feature_detect" type="feature_detect_3d" name="human_feature_detect_3d" output="screen" >
+    <node pkg="human_feature_detection" type="feature_detect_3d" name="human_feature_detect_3d" output="screen" >
         <param name="topic_name" value="/points2"/>
         <param name="target_frame" value="base_footprint"/>
         <param name="face_range" value="0.20"/>

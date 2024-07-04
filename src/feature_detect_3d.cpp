@@ -12,8 +12,8 @@
 // #include <cv_bridge/cv_bridge.h>
 #include <sensor_msgs/Image.h>
 
-#include "human_feature_detect/point_cloud_processor.hpp"
-#include "human_feature_detect/Feature3d.h"
+#include "human_feature_detection/point_cloud_processor.hpp"
+#include "human_feature_detection/Feature3d.h"
 
 
 struct RGB {
@@ -28,7 +28,7 @@ class HUMAN_FEATURE_DETECT_3D {
         ros::Subscriber sub_points_;
         ros::Publisher pub_cloud_;
         std::string topic_name;
-        human_feature_detect::PointCloudProcessor pcp_;
+        human_feature_detection::PointCloudProcessor pcp_;
         std::string target_frame_;
         PointCloud::Ptr cloud_;
         RGB set_rgb;
@@ -80,7 +80,7 @@ class HUMAN_FEATURE_DETECT_3D {
                 flag = true;
             }
         }
-        bool human_feature_3d(human_feature_detect::Feature3d::Request &req, human_feature_detect::Feature3d::Response &res)
+        bool human_feature_3d(human_feature_detection::Feature3d::Request &req, human_feature_detection::Feature3d::Response &res)
         {
             min_range = req.min_range;
             max_range = req.max_range;
@@ -117,7 +117,7 @@ class HUMAN_FEATURE_DETECT_3D {
         }
         void wait_for_call()
         {
-            ros::ServiceServer server_feature_3d = nh_.advertiseService("/human_feature_detect/feature3d", &HUMAN_FEATURE_DETECT_3D::human_feature_3d, this);
+            ros::ServiceServer server_feature_3d = nh_.advertiseService("/human_feature_detection/feature3d", &HUMAN_FEATURE_DETECT_3D::human_feature_3d, this);
             ros::spinOnce();
             ros::spin();
         }
@@ -268,7 +268,7 @@ class HUMAN_FEATURE_DETECT_3D {
 };
 
 int main(int argc, char **argv) {
-    ros::init(argc, argv, "human_feature_detect_3d");
+    ros::init(argc, argv, "human_feature_detection_3d");
     HUMAN_FEATURE_DETECT_3D human_feature_detect_3d;
     return 0;
 }

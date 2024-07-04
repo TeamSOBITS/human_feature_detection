@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10.2)
-project(human_feature_detect)
+project(human_feature_detection)
 
 add_compile_options(-std=c++14)
 

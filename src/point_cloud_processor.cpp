@@ -1,6 +1,6 @@
-#include <human_feature_detect/point_cloud_processor.hpp>
+#include <human_feature_detection/point_cloud_processor.hpp>
 
-using namespace human_feature_detect;
+using namespace human_feature_detection;
 
 PointCloudProcessor::PointCloudProcessor() : tfBuffer_(), tf_listener_(tfBuffer_) {
     tree_ .reset ( new pcl::search::KdTree<PointT>() );
