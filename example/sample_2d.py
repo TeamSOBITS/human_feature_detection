@@ -17,7 +17,7 @@ def callback_img(msg):
 def main():
     global srv_img, start_ok
     rospy.init_node("human_feature_detect_sample_2d_ros")
-    rospy.Subscriber("/usb_cam/image_raw", Image, callback_img)  ## Topic名をsensor_msgs/Image型の画像にする
+    rospy.Subscriber("/rgb/image_raw", Image, callback_img)  ## Topic名をsensor_msgs/Image型の画像にする
 
     while not rospy.is_shutdown():
         if start_ok:
