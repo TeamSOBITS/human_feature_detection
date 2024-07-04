@@ -3,7 +3,7 @@
 import rospy
 from os.path import expanduser
 from sensor_msgs.msg import Image
-from human_feature_detect.srv import Features
+from human_feature_detection.srv import Features
 
 
 srv_img = Image()
@@ -17,7 +17,7 @@ def callback_img(msg):
 def main():
     global srv_img, start_ok
     rospy.init_node("human_feature_detect_sample_2d_ros")
-    rospy.Subscriber("/camera/rgb/image_raw", Image, callback_img)  ## Topic名をsensor_msgs/Image型の画像にする
+    rospy.Subscriber("/usb_cam/image_raw", Image, callback_img)  ## Topic名をsensor_msgs/Image型の画像にする
 
     while not rospy.is_shutdown():
         if start_ok:
@@ -32,9 +32,9 @@ def main():
         rospy.sleep(1)
 
         # 特徴(年齢と性別)を取得してくれるServiceのサーバーが立ち上がるまで待つ
-        rospy.wait_for_service("/human_feature_detect/features")
+        rospy.wait_for_service("/human_feature_detection/features")
         # サーバーが立ち上がったらこちら側でクライアントとして定義する
-        service = rospy.ServiceProxy("/human_feature_detect/features", Features)
+        service = rospy.ServiceProxy("/human_feature_detection/features", Features)
 
         # ROSのメッセージにした写真をサーバーに送信。返答結果はresponseに代入される
         response = service(srv_img)

@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import rospy
-from human_feature_detect.srv import Feature3d
+from human_feature_detection.srv import Feature3d
 
 def main():
     rospy.init_node("human_feature_detect_sample_3d")
 
     # 特徴(身長と服の色)を取得してくれるServiceのサーバーが立ち上がるまで待つ
-    rospy.wait_for_service("/human_feature_detect/feature3d")
+    rospy.wait_for_service("/human_feature_detection/feature3d")
     # サーバーが立ち上がったらこちら側でクライアントとして定義する
-    service = rospy.ServiceProxy("/human_feature_detect/feature3d", Feature3d)
+    service = rospy.ServiceProxy("/human_feature_detection/feature3d", Feature3d)
 
     # ロボット(カメラ)の前方何メートルから何メートルまでの範囲にある点群を検出するかをサーバーに送信
     # 返答結果はresponseに代入される

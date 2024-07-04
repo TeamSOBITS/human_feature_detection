@@ -14,7 +14,7 @@
 typedef pcl::PointXYZRGB PointT;
 typedef pcl::PointCloud<PointT> PointCloud;
 
-namespace human_feature_detect {
+namespace human_feature_detection {
     class PointCloudProcessor {
         protected:
             tf2_ros::Buffer tfBuffer_;
