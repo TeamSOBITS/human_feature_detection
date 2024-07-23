@@ -1,22 +1,22 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-import rospy
-import roslib
+import rclpy
+from rclpy.node import Node
 import cv2
 import numpy as np
 from cv_bridge import CvBridge
 from sensor_msgs.msg import Image
 from mtcnn.mtcnn import MTCNN
 from deepface import DeepFace
-from human_feature_detection.srv import Features, FeaturesResponse
+from human_feature_detection.srv import Features
 from human_feature_detection.msg import Feature
-import roslib.packages
+import getpass
 
 
 class FEATURE_SERVER:
     def model_load(self):
         self.detector = MTCNN()
-        path = roslib.packages.get_pkg_dir("human_feature_detection")
+        path = "/home/" + str(getpass.getuser()) + "/colcon_ws/src/human_feature_detection"
         image = cv2.imread(path + "/images/sample_image.png")
         face_locations = self.detect_faces(image)
         for index, face_location in enumerate(face_locations):
@@ -31,7 +31,6 @@ class FEATURE_SERVER:
             h = bbox.boundingbox.size_y
             cv2.rectangle(copied_image, (x, y), (x + w, y + h), (0, 255, 0), 2)
             cv2.putText(copied_image, name, (x, y - 4), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
-        path = roslib.packages.get_pkg_dir("human_feature_detection")
         cv2.imwrite(path + '/images/result.png', copied_image)
         bridge = CvBridge()
         return (bridge.cv2_to_imgmsg(copied_image))
@@ -46,13 +45,13 @@ class FEATURE_SERVER:
         result = DeepFace.analyze(detected_face, actions=['age', 'gender', 'emotion'], enforce_detection=False)
         return result
 
-    def human_features_callback(self, hfd_srv):
+    def human_features_callback(self, request, response):
         bridge = CvBridge()
-        image = bridge.imgmsg_to_cv2(hfd_srv.input_image)
+        image = bridge.imgmsg_to_cv2(request.input_image)
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         face_locations = self.detect_faces(image)
 
-        features = FeaturesResponse()
+
         box_text = []
         for index, face_location in enumerate(face_locations):
             feature = Feature()
@@ -70,25 +69,22 @@ class FEATURE_SERVER:
                     feature.sex = "Man"
                 else:
                     feature.sex = "Woman"
-                features.features += [feature]
+                response.features += [feature]
                 box_text += ["Age:" + str(feature.age) + ", Sex:" + str(feature.sex) + ", Emotion:" + str(feature.emotion)]
 
-        features.result_image = self.bbox_plot(image, features.features, box_text)
-        return FeaturesResponse(result_image=features.result_image , features=features.features )
+        response.result_image = self.bbox_plot(image, response.features, box_text)
+        return response
 
-    def wait_server(self):
+    def wait_server(self, nd):
         self.model_load()
-        rospy.Service("/human_feature_detection/features", Features, self.human_features_callback)
-        rospy.loginfo("Waiting for service...")
-        rospy.spin()
+        srv = nd.create_service(Features, "/human_feature_detection/features", self.human_features_callback)
+        nd.get_logger().info('Waiting for service...')
+        rclpy.spin(nd)
 
 
 
 if __name__ == '__main__':
-    rospy.init_node("feature_detect")
-    try:
-        feature_server = FEATURE_SERVER()
-        feature_server.wait_server()
-
-    except (KeyboardInterrupt, rospy.ROSInterruptException) as e:
-        rospy.logfatal("Error occurred! Stopping the caht gpt ros service node...")
+    rclpy.init()
+    nd = Node("feature_detect")
+    feature_server = FEATURE_SERVER()
+    feature_server.wait_server(nd)
