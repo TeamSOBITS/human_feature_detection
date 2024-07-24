@@ -13,7 +13,7 @@
 #include <sensor_msgs/Image.h>
 
 #include "human_feature_detection/point_cloud_processor.hpp"
-#include "human_feature_detection/Feature3d.h"
+#include "human_feature_detection/srv/feature3d.hpp"
 
 
 struct RGB {
@@ -23,10 +23,12 @@ struct RGB {
 
 class HUMAN_FEATURE_DETECT_3D {
     private:
-        ros::NodeHandle nh_;
-        ros::NodeHandle pnh_;
-        ros::Subscriber sub_points_;
-        ros::Publisher pub_cloud_;
+        rclcpp::Node::SharedPtr nd_;
+        rclcpp::Subscription<hello_world_msgs::msg::Example>::SharedPtr sub_points_;
+        // ros::NodeHandle nh_;
+        // ros::NodeHandle pnh_;
+        // ros::Subscriber sub_points_;
+        // ros::Publisher pub_cloud_;
         std::string topic_name;
         human_feature_detection::PointCloudProcessor pcp_;
         std::string target_frame_;
@@ -43,7 +45,8 @@ class HUMAN_FEATURE_DETECT_3D {
         float max_range;
         int bightness_value;
 
-        void cbPoints(const sensor_msgs::PointCloud2ConstPtr &cloud_msg) {
+        void cbPoints(const sensor_msgs::msg::PointCloud2::UniquePtr cloud_msg) {
+        // void cbPoints(const sensor_msgs::PointCloud2ConstPtr &cloud_msg) {
             pcp_.transformFramePointCloud( target_frame_, cloud_msg, cloud_ );
             r.clear();
             g.clear();
@@ -80,12 +83,14 @@ class HUMAN_FEATURE_DETECT_3D {
                 flag = true;
             }
         }
-        bool human_feature_3d(human_feature_detection::Feature3d::Request &req, human_feature_detection::Feature3d::Response &res)
+        void human_feature_3d(const std::shared_ptr<human_feature_detection::srv::Feature3d::Request> req, std::shared_ptr<human_feature_detection::srv::Feature3d::Response> res)
+        // bool human_feature_3d(human_feature_detection::Feature3d::Request &req, human_feature_detection::Feature3d::Response &res)
         {
             min_range = req.min_range;
             max_range = req.max_range;
             flag = false;
-            sub_points_ = nh_.subscribe(topic_name, 5, &HUMAN_FEATURE_DETECT_3D::cbPoints, this);
+            sub_points_ = nd->create_subscription<human_feature_detection::srv::Feature3d>(topic_name, 10, &HUMAN_FEATURE_DETECT_3D::cbPoints);
+            // sub_points_ = nh_.subscribe(topic_name, 5, &HUMAN_FEATURE_DETECT_3D::cbPoints, this);
             cloud_.reset(new PointCloud());
             ros::Rate loop_rate(10);
             sleep(2.0);
@@ -117,9 +122,10 @@ class HUMAN_FEATURE_DETECT_3D {
         }
         void wait_for_call()
         {
-            ros::ServiceServer server_feature_3d = nh_.advertiseService("/human_feature_detection/feature3d", &HUMAN_FEATURE_DETECT_3D::human_feature_3d, this);
-            ros::spinOnce();
-            ros::spin();
+            rclcpp::Service<human_feature_detection::srv::Feature3d>::SharedPtr server_feature_3d = nd->create_service<std_srvs::srv::SetBool>("/human_feature_detection/feature3d", std::bind(&HUMAN_FEATURE_DETECT_3D::human_feature_3d, std::placeholders::_1, std::placeholders::_2));
+            // ros::ServiceServer server_feature_3d = nh_.advertiseService("/human_feature_detection/feature3d", &HUMAN_FEATURE_DETECT_3D::human_feature_3d, this);
+            // ros::spinOnce();
+            // ros::spin();
         }
         std::string decideColor(RGB rgb)
         {
@@ -257,18 +263,20 @@ class HUMAN_FEATURE_DETECT_3D {
             }
         }
     public:
-        HUMAN_FEATURE_DETECT_3D(): nh_(), pnh_("~") {
-            topic_name = pnh_.param<std::string>( "topic_name", "/points2" );
-            face_range = pnh_.param<float>( "face_range", 0.20 );
-            clothes_range = pnh_.param<float>( "clothes_range", 0.50 );
-            target_frame_ = pnh_.param<std::string>( "target_frame", "base_footprint" );
-            bightness_value = pnh_.param<int>( "bightness_value", 0 );
+        HUMAN_FEATURE_DETECT_3D(std::shared_ptr<rclcpp::Node> nd): nd_(nd) {
+            topic_name = nd_.param<std::string>( "topic_name", "/points2" );
+            face_range = nd_.param<float>( "face_range", 0.20 );
+            clothes_range = nd_.param<float>( "clothes_range", 0.50 );
+            target_frame_ = nd_.param<std::string>( "target_frame", "base_footprint" );
+            bightness_value = nd_.param<int>( "bightness_value", 0 );
             wait_for_call();
         }
 };
 
 int main(int argc, char **argv) {
-    ros::init(argc, argv, "human_feature_detection_3d");
+    rclcpp::init(argc, argv);
+    rclcpp::Node::SharedPtr nd = std::make_shared<rclcpp::Node>("human_feature_detection_3d");
+    // ros::init(argc, argv, "human_feature_detection_3d");
     HUMAN_FEATURE_DETECT_3D human_feature_detect_3d;
     return 0;
 }

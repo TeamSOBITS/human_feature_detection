@@ -5,7 +5,7 @@ import rclpy
 from rclpy.node import Node
 from time import sleep
 # from os.path import expanduser
-from rclpy.qos import qos_profile_sensor_data
+# from rclpy.qos import qos_profile_sensor_data
 from sensor_msgs.msg import Image
 from human_feature_detection.srv import Features
 
@@ -24,9 +24,9 @@ def main():
     # rospy.Subscriber("/rgb/image_raw", Image, callback_img)  ## Topic名をsensor_msgs/Image型の画像にする
     rclpy.init()
     nd = Node("human_feature_detect_sample_2d_ros")
-    sub = nd.create_subscription(Image, "/rgb/image_raw", callback_img, qos_profile_sensor_data)  ## Topic名をsensor_msgs/Image型の画像にする
-
+    sub = nd.create_subscription(Image, "/camera/camera/color/image_raw", callback_img, 10)  ## Topic名をsensor_msgs/Image型の画像にする
     while rclpy.ok():
+        rclpy.spin_once(nd, timeout_sec=0.1)
         if start_ok:
             break      # 画像がコールバックされたら抜け出す
     

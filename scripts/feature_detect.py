@@ -6,7 +6,7 @@ import cv2
 import numpy as np
 from cv_bridge import CvBridge
 from sensor_msgs.msg import Image
-from mtcnn.mtcnn import MTCNN
+# from mtcnn.mtcnn import MTCNN
 from deepface import DeepFace
 from human_feature_detection.srv import Features
 from human_feature_detection.msg import Feature
@@ -15,6 +15,7 @@ import getpass
 
 class FEATURE_SERVER:
     def model_load(self):
+        from mtcnn.mtcnn import MTCNN
         self.detector = MTCNN()
         path = "/home/" + str(getpass.getuser()) + "/colcon_ws/src/human_feature_detection"
         image = cv2.imread(path + "/images/sample_image.png")
@@ -25,12 +26,13 @@ class FEATURE_SERVER:
     def bbox_plot(self, image, bboxes, name_list):
         copied_image = np.copy(image)
         for bbox, name in zip(bboxes, name_list):
-            x = bbox.boundingbox.center.x - bbox.boundingbox.size_x//2
-            y = bbox.boundingbox.center.y - bbox.boundingbox.size_y//2
+            x = bbox.boundingbox.center.position.x - bbox.boundingbox.size_x//2
+            y = bbox.boundingbox.center.position.y - bbox.boundingbox.size_y//2
             w = bbox.boundingbox.size_x
             h = bbox.boundingbox.size_y
-            cv2.rectangle(copied_image, (x, y), (x + w, y + h), (0, 255, 0), 2)
-            cv2.putText(copied_image, name, (x, y - 4), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+            cv2.rectangle(copied_image, (int(x), int(y)), (int(x + w), int(y + h)), (0, 255, 0), 2)
+            cv2.putText(copied_image, name, (int(x), int(y) - 4), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+        path = "/home/" + str(getpass.getuser()) + "/colcon_ws/src/human_feature_detection"
         cv2.imwrite(path + '/images/result.png', copied_image)
         bridge = CvBridge()
         return (bridge.cv2_to_imgmsg(copied_image))
@@ -40,6 +42,7 @@ class FEATURE_SERVER:
         return face_locations
 
     def analyze_face(self, image, face_location):
+        # from deepface import DeepFace
         x, y, w, h = face_location['box']
         detected_face = image[y:y+h, x:x+w]
         result = DeepFace.analyze(detected_face, actions=['age', 'gender', 'emotion'], enforce_detection=False)
@@ -60,11 +63,11 @@ class FEATURE_SERVER:
             for result in results:
                 feature.age = int(result['age'])
                 feature.emotion = result['dominant_emotion']
-                feature.boundingbox.center.x = face_location['box'][0] + face_location['box'][2]//2
-                feature.boundingbox.center.y = face_location['box'][1] + face_location['box'][3]//2
+                feature.boundingbox.center.position.x = float(face_location['box'][0] + face_location['box'][2]//2)
+                feature.boundingbox.center.position.y = float(face_location['box'][1] + face_location['box'][3]//2)
                 feature.boundingbox.center.theta = 0.0
-                feature.boundingbox.size_x = face_location['box'][2]
-                feature.boundingbox.size_y = face_location['box'][3]
+                feature.boundingbox.size_x = float(face_location['box'][2])
+                feature.boundingbox.size_y = float(face_location['box'][3])
                 if (result['gender']['Woman'] < result['gender']['Man']):
                     feature.sex = "Man"
                 else:
