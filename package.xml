@@ -13,9 +13,23 @@
   <build_depend>rclcpp</build_depend>
   <build_depend>sensor_msgs</build_depend>
   <build_depend>vision_msgs</build_depend>
+  <build_depend>tf2_ros</build_depend>
+  <build_depend>tf2_geometry_msgs</build_depend>
+  <build_depend>pcl_ros</build_depend>
+  <build_depend>tf2_eigen</build_depend>
+  <build_depend>rosidl_default_generators</build_depend>
+  <build_depend>rosidl_typesupport_cpp</build_depend>
+  <build_depend>rosidl_default_runtime</build_depend>
   <exec_depend>rclcpp</exec_depend>
   <exec_depend>sensor_msgs</exec_depend>
   <exec_depend>vision_msgs</exec_depend>
+  <exec_depend>tf2_ros</exec_depend>
+  <exec_depend>tf2_geometry_msgs</exec_depend>
+  <exec_depend>pcl_ros</exec_depend>
+  <exec_depend>tf2_eigen</exec_depend>
+  <exec_depend>rosidl_default_generators</exec_depend>
+  <exec_depend>rosidl_typesupport_cpp</exec_depend>
+  <exec_depend>rosidl_default_runtime</exec_depend>
 
   <!-- <build_depend>message_generation</build_depend>
   <exec_depend>message_runtime</exec_depend>
@@ -59,6 +73,7 @@
   <export>
     <build_type>ament_cmake</build_type>
     <build_depend>rosidl_default_generators</build_depend>
+    <build_depend>rosidl_typesupport_cpp</build_depend>
     <exec_depend>rosidl_default_runtime</exec_depend>
   </export>
   <member_of_group>rosidl_interface_packages</member_of_group>

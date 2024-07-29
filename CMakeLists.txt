@@ -25,7 +25,16 @@ find_package(rclcpp REQUIRED)
 find_package(rclpy REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(vision_msgs REQUIRED)
+find_package(tf2_ros REQUIRED)
+find_package(tf2_eigen REQUIRED)
+find_package(tf2_geometry_msgs REQUIRED)
+find_package(pcl_ros REQUIRED)
+find_package(pcl_conversions REQUIRED)
+# find_package(PCL REQUIRED)
+# find_package(PCL REQUIRED COMPONENTS common io)
 find_package(rosidl_default_generators REQUIRED)
+find_package(rosidl_typesupport_cpp REQUIRED)
+find_package(rosidl_default_runtime REQUIRED)
 
 
 # add_message_files(
@@ -56,22 +65,29 @@ set(srv_files
 rosidl_generate_interfaces(${PROJECT_NAME}
   ${msg_files}
   ${srv_files}
-  DEPENDENCIES std_msgs geometry_msgs sensor_msgs vision_msgs
+  DEPENDENCIES std_msgs geometry_msgs sensor_msgs vision_msgs tf2_ros tf2_geometry_msgs #pcl_ros
 )
 
-
 #--- for C++
-# include_directories(include)
-# add_executable(service_server_cpp src/service_server_cpp.cpp)
-# ament_target_dependencies(service_server_cpp rclcpp std_srvs)
-# add_executable(service_client_cpp src/service_client_cpp.cpp)
-# ament_target_dependencies(service_client_cpp rclcpp std_srvs)
+add_executable(feature_detect_3d src/feature_detect_3d.cpp src/point_cloud_processor.cpp)
+# ament_target_dependencies(feature_detect_3d rclcpp sensor_msgs tf2_ros tf2_geometry_msgs pcl_conversions PCL)#pcl_ros
+ament_target_dependencies(feature_detect_3d rclcpp std_msgs sensor_msgs pcl_conversions pcl_ros tf2_ros tf2_eigen tf2_geometry_msgs rosidl_default_runtime)
 
-# install(TARGETS
-#   # service_server_cpp
-#   # service_client_cpp
-#   DESTINATION lib/${PROJECT_NAME}
+add_dependencies(feature_detect_3d ${PROJECT_NAME} ${PROJECT_NAME}__rosidl_typesupport_cpp)
+
+include_directories(include ${PCL_INCLUDE_DIRS} ${CMAKE_CURRENT_BINARY_DIR}/rosidl_generator_cpp ${ament_index_build_prefix}/${PROJECT_NAME}/include)
+
+
+# target_link_libraries(feature_detect_3d
+#   ${PCL_LIBRARIES}
+#   ${rosidl_typesupport_cpp_LIBRARIES}
+#   ${CMAKE_CURRENT_BINARY_DIR}/rosidl_generator_cpp
 # )
+install(TARGETS
+  feature_detect_3d
+  # service_client_cpp
+  DESTINATION lib/${PROJECT_NAME}
+)
 #--- end C++
 
 #-- for Python
