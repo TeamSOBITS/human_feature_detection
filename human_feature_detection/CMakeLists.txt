@@ -38,8 +38,6 @@ install(TARGETS
 #--- end C++
 
 #-- for Python
-# ament_python_install_package(${PROJECT_NAME})
-
 install(PROGRAMS
   scripts/feature_detect.py
   example/sample_2d.py
@@ -47,6 +45,11 @@ install(PROGRAMS
   DESTINATION lib/${PROJECT_NAME}
 )
 #--- end Python
+
+#-- for Launch
+install(DIRECTORY launch/
+        DESTINATION share/${PROJECT_NAME}/launch)
+#--- end Launch
 
 
 if(BUILD_TESTING)
