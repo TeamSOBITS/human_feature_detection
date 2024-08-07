@@ -94,7 +94,6 @@ class HUMAN_FEATURE_DETECT_3D {
         // void human_feature_3d(const std::shared_ptr<human_feature_detection::srv::Feature3d::Request> req, std::shared_ptr<human_feature_detection::srv::Feature3d::Response> res)
         // bool human_feature_3d(human_feature_detection::Feature3d::Request &req, human_feature_detection::Feature3d::Response &res)
         {
-            RCLCPP_INFO(nd_->get_logger(), "SERVER CALLED");
             min_range = req->min_range;
             max_range = req->max_range;
             flag = false;
@@ -106,22 +105,16 @@ class HUMAN_FEATURE_DETECT_3D {
             rclcpp::Rate loop_rate(10);
             sleep(2.0);
             while (rclcpp::ok()) {
-                if (flag) {
-                    RCLCPP_INFO(nd_->get_logger(), "TRUE");
-                    break;
-                }
-                else {
-                    RCLCPP_INFO(nd_->get_logger(), "FALSE");
-                }
+                if (flag) break;
                 loop_rate.sleep();
                 rclcpp::spin_some(nd_pc);
             }
             // CALL_BACK End
             res->color = decideColor(set_rgb);
             res->height = height*100;
-            RCLCPP_INFO(nd_->get_logger(), "R = %d, G = %d, B = %d\n",set_rgb.r + bightness_value, set_rgb.g + bightness_value, set_rgb.b + bightness_value);
-            RCLCPP_INFO(nd_->get_logger(), "color = %s\n",res->color.c_str());
-            RCLCPP_INFO(nd_->get_logger(), "height = %.1f\n\n", height*100);
+            RCLCPP_INFO(nd_->get_logger(), "R = %d, G = %d, B = %d",set_rgb.r + bightness_value, set_rgb.g + bightness_value, set_rgb.b + bightness_value);
+            RCLCPP_INFO(nd_->get_logger(), "color = %s",res->color.c_str());
+            RCLCPP_INFO(nd_->get_logger(), "height = %.1f\n", height*100);
             // ROS_INFO("R = %d, G = %d, B = %d\n",set_rgb.r + bightness_value, set_rgb.g + bightness_value, set_rgb.b + bightness_value);
             // ROS_INFO("color = %s\n",res->color.c_str());
             // ROS_INFO("height = %.1f\n\n", height*100);
