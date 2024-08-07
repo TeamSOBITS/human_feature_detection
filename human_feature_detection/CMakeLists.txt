@@ -26,13 +26,10 @@ find_package(human_feature_detection_msgs REQUIRED)
 add_executable(feature_detect_3d src/feature_detect_3d.cpp src/point_cloud_processor.cpp)
 ament_target_dependencies(feature_detect_3d rclcpp std_msgs sensor_msgs pcl_conversions pcl_ros tf2_ros tf2_eigen tf2_geometry_msgs human_feature_detection_msgs rosidl_default_runtime)
 
-# add_dependencies(feature_detect_3d ${PROJECT_NAME}/${PROJECT_NAME}_msgs)# ${PROJECT_NAME}__rosidl_typesupport_cpp)
-
 include_directories(include ${PCL_INCLUDE_DIRS} ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_BINARY_DIR}/rosidl_generator_cpp ${ament_index_build_prefix}/${PROJECT_NAME}/include)
 
 install(TARGETS
   feature_detect_3d
-  # service_client_cpp
   DESTINATION lib/${PROJECT_NAME}
 )
 #--- end C++
