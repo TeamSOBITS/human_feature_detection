@@ -9,11 +9,7 @@ sudo apt-get install -y \
 
 pip3 install --upgrade pip
 pip3 install mtcnn
-# pip3 install MTCNN
 pip3 install deepface
-# pip3 install DeepFace
-# pip3 install tensorflow
-# pip3 install tf_keras
 pip3 install --upgrade pip
 
 python3 model_setup.py

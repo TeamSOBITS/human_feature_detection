@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 import cv2
-# from mtcnn.mtcnn import MTCNN
 from deepface import DeepFace
 import getpass
 
@@ -11,7 +10,7 @@ def bbox(image, bboxes, name_list):
         x, y, w, h = bbox
         cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 2)
         cv2.putText(image, name, (x, y - 4), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
-    path = "/home/" + str(getpass.getuser()) + "/colcon_ws/src/human_feature_detection"
+    path = "/home/" + str(getpass.getuser()) + "/colcon_ws/src/human_feature_detection/human_feature_detection"
     cv2.imwrite(path + "/images/sample_image_result.png", image)
 
 def detect_faces(image):
@@ -28,7 +27,7 @@ def analyze_face(image, bbox):
 
 
 def main():
-    path = "/home/" + str(getpass.getuser()) + "/colcon_ws/src/human_feature_detection"
+    path = "/home/" + str(getpass.getuser()) + "/colcon_ws/src/human_feature_detection/human_feature_detection"
     image = cv2.imread(path + "/images/sample_image.png")
     face_locations = detect_faces(image)
     print("\033[41m", face_locations, "\033[0m")

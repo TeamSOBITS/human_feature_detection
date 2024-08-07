@@ -15,7 +15,9 @@
 #include <sensor_msgs/msg/image.hpp>
 
 #include "human_feature_detection/point_cloud_processor.hpp"
-#include "human_feature_detection/srv/feature3d.hpp"
+// #include "human_feature_detection/srv/feature3d.hpp"
+// #include "sobits_msgs/srv/feature3d.hpp"
+#include "human_feature_detection_msgs/srv/feature3d.hpp"
 
 
 struct RGB {
@@ -27,6 +29,7 @@ class HUMAN_FEATURE_DETECT_3D {
     private:
         rclcpp::Node::SharedPtr nd_;
         rclcpp::Subscription<sensor_msgs::msg::PointCloud2>::SharedPtr sub_points_;
+        rclcpp::Service<human_feature_detection_msgs::srv::Feature3d>::SharedPtr server_feature_3d;
         // ros::NodeHandle nh_;
         // ros::NodeHandle pnh_;
         // ros::Subscriber sub_points_;
@@ -84,27 +87,36 @@ class HUMAN_FEATURE_DETECT_3D {
                 set_rgb.b = b[b.size()/2];
                 flag = true;
             }
+            // rclcpp::spin_some(nd_);
         }
-        void human_feature_3d(const std::shared_ptr<human_feature_detection::srv::Feature3d::Request> req, std::shared_ptr<human_feature_detection::srv::Feature3d::Response> res)
+        void human_feature_3d(const std::shared_ptr<human_feature_detection_msgs::srv::Feature3d::Request> req, std::shared_ptr<human_feature_detection_msgs::srv::Feature3d::Response> res)
+        // void human_feature_3d(const std::shared_ptr<sobits_msgs::srv::Feature3d::Request> req, std::shared_ptr<sobits_msgs::srv::Feature3d::Response> res)
+        // void human_feature_3d(const std::shared_ptr<human_feature_detection::srv::Feature3d::Request> req, std::shared_ptr<human_feature_detection::srv::Feature3d::Response> res)
         // bool human_feature_3d(human_feature_detection::Feature3d::Request &req, human_feature_detection::Feature3d::Response &res)
         {
+            RCLCPP_INFO(nd_->get_logger(), "SERVER CALLED");
             min_range = req->min_range;
             max_range = req->max_range;
             flag = false;
-            sub_points_ = nd_->create_subscription<sensor_msgs::msg::PointCloud2>(topic_name, 5, std::bind(&HUMAN_FEATURE_DETECT_3D::cbPoints, this, std::placeholders::_1));
+            // CALL_BACK Start
+            rclcpp::Node::SharedPtr nd_pc = std::make_shared<rclcpp::Node>("human_feature_detection_3d_point_cloud");
+            sub_points_ = nd_pc->create_subscription<sensor_msgs::msg::PointCloud2>(topic_name, 5, std::bind(&HUMAN_FEATURE_DETECT_3D::cbPoints, this, std::placeholders::_1));
             // sub_points_ = nh_.subscribe(topic_name, 5, &HUMAN_FEATURE_DETECT_3D::cbPoints, this);
             cloud_.reset(new PointCloud());
             rclcpp::Rate loop_rate(10);
             sleep(2.0);
-            while (rclcpp::ok())
-            {
-                if (flag)
-                {                    
+            while (rclcpp::ok()) {
+                if (flag) {
+                    RCLCPP_INFO(nd_->get_logger(), "TRUE");
                     break;
                 }
-                rclcpp::spin_some(nd_);
+                else {
+                    RCLCPP_INFO(nd_->get_logger(), "FALSE");
+                }
                 loop_rate.sleep();
+                rclcpp::spin_some(nd_pc);
             }
+            // CALL_BACK End
             res->color = decideColor(set_rgb);
             res->height = height*100;
             RCLCPP_INFO(nd_->get_logger(), "R = %d, G = %d, B = %d\n",set_rgb.r + bightness_value, set_rgb.g + bightness_value, set_rgb.b + bightness_value);
@@ -127,10 +139,9 @@ class HUMAN_FEATURE_DETECT_3D {
         }
         void wait_for_call()
         {
-            rclcpp::Service<human_feature_detection::srv::Feature3d>::SharedPtr server_feature_3d;
-            server_feature_3d = nd_->create_service<human_feature_detection::srv::Feature3d>("/human_feature_detection/feature3d", std::bind(&HUMAN_FEATURE_DETECT_3D::human_feature_3d, this, std::placeholders::_1, std::placeholders::_2));
-            rclcpp::spin_some(nd_);
-            rclcpp::spin(nd_);
+            server_feature_3d = nd_->create_service<human_feature_detection_msgs::srv::Feature3d>("/human_feature_detection/feature3d", std::bind(&HUMAN_FEATURE_DETECT_3D::human_feature_3d, this, std::placeholders::_1, std::placeholders::_2));
+            RCLCPP_INFO(nd_->get_logger(), "WAIT FOR SERVER");
+            // rclcpp::spin(nd_);
             // ros::ServiceServer server_feature_3d = nh_.advertiseService("/human_feature_detection/feature3d", &HUMAN_FEATURE_DETECT_3D::human_feature_3d, this);
             // ros::spinOnce();
             // ros::spin();
@@ -276,12 +287,11 @@ class HUMAN_FEATURE_DETECT_3D {
             // clothes_range = nd_.param<float>( "clothes_range", 0.50 );
             // target_frame_ = nd_.param<std::string>( "target_frame", "base_footprint" );
             // bightness_value = nd_.param<int>( "bightness_value", 0 );
-            topic_name = "/points2";
+            topic_name = "/camera/camera/depth/color/points";
             face_range = 0.20;
             clothes_range = 0.50;
-            target_frame_ = "base_footprint";
+            target_frame_ = "camera_link";
             bightness_value = 0;
-            // pcp_(nd_);
             wait_for_call();
         }
 };
@@ -292,5 +302,9 @@ int main(int argc, char **argv) {
     // ros::init(argc, argv, "human_feature_detection_3d");
     // HUMAN_FEATURE_DETECT_3D human_feature_detect_3d;
     auto human_feature_detect_3d = std::make_shared<HUMAN_FEATURE_DETECT_3D>(nd);
+    rclcpp::executors::SingleThreadedExecutor exec;
+    exec.add_node(nd);
+    exec.spin();
+    rclcpp::shutdown();
     return 0;
 }

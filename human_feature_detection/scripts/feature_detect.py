@@ -8,8 +8,8 @@ from cv_bridge import CvBridge
 from sensor_msgs.msg import Image
 # from mtcnn.mtcnn import MTCNN
 from deepface import DeepFace
-from human_feature_detection.srv import Features
-from human_feature_detection.msg import Feature
+from human_feature_detection_msgs.srv import Features
+from human_feature_detection_msgs.msg import Feature
 import getpass
 
 
@@ -17,7 +17,7 @@ class FEATURE_SERVER:
     def model_load(self):
         from mtcnn.mtcnn import MTCNN
         self.detector = MTCNN()
-        path = "/home/" + str(getpass.getuser()) + "/colcon_ws/src/human_feature_detection"
+        path = "/home/" + str(getpass.getuser()) + "/colcon_ws/src/human_feature_detection/human_feature_detection"
         image = cv2.imread(path + "/images/sample_image.png")
         face_locations = self.detect_faces(image)
         for index, face_location in enumerate(face_locations):
@@ -32,7 +32,7 @@ class FEATURE_SERVER:
             h = bbox.boundingbox.size_y
             cv2.rectangle(copied_image, (int(x), int(y)), (int(x + w), int(y + h)), (0, 255, 0), 2)
             cv2.putText(copied_image, name, (int(x), int(y) - 4), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
-        path = "/home/" + str(getpass.getuser()) + "/colcon_ws/src/human_feature_detection"
+        path = "/home/" + str(getpass.getuser()) + "/colcon_ws/src/human_feature_detection/human_feature_detection"
         cv2.imwrite(path + '/images/result.png', copied_image)
         bridge = CvBridge()
         return (bridge.cv2_to_imgmsg(copied_image))
