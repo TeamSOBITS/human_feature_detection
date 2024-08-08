@@ -90,8 +90,6 @@ class HUMAN_FEATURE_DETECT_3D {
             // rclcpp::spin_some(nd_);
         }
         void human_feature_3d(const std::shared_ptr<human_feature_detection_msgs::srv::Feature3d::Request> req, std::shared_ptr<human_feature_detection_msgs::srv::Feature3d::Response> res)
-        // void human_feature_3d(const std::shared_ptr<sobits_msgs::srv::Feature3d::Request> req, std::shared_ptr<sobits_msgs::srv::Feature3d::Response> res)
-        // void human_feature_3d(const std::shared_ptr<human_feature_detection::srv::Feature3d::Request> req, std::shared_ptr<human_feature_detection::srv::Feature3d::Response> res)
         // bool human_feature_3d(human_feature_detection::Feature3d::Request &req, human_feature_detection::Feature3d::Response &res)
         {
             min_range = req->min_range;
@@ -280,11 +278,21 @@ class HUMAN_FEATURE_DETECT_3D {
             // clothes_range = nd_.param<float>( "clothes_range", 0.50 );
             // target_frame_ = nd_.param<std::string>( "target_frame", "base_footprint" );
             // bightness_value = nd_.param<int>( "bightness_value", 0 );
-            topic_name = "/camera/camera/depth/color/points";
-            face_range = 0.20;
-            clothes_range = 0.50;
-            target_frame_ = "camera_link";
-            bightness_value = 0;
+            // topic_name = "/camera/camera/depth/color/points";
+            // face_range = 0.20;
+            // clothes_range = 0.50;
+            // target_frame_ = "camera_link";
+            // bightness_value = 0;
+            nd_->declare_parameter("topic_name", "/points2");
+            nd_->declare_parameter("face_range", 0.20);
+            nd_->declare_parameter("clothes_range", 0.50);
+            nd_->declare_parameter("target_frame", "base_footprint");
+            nd_->declare_parameter("bightness_value", 0);
+            topic_name = nd_->get_parameter("topic_name").as_string();
+            face_range = nd_->get_parameter("face_range").as_double();
+            clothes_range = nd_->get_parameter("clothes_range").as_double();
+            target_frame_ = nd_->get_parameter("target_frame").as_string();
+            bightness_value = nd_->get_parameter("bightness_value").as_int();
             wait_for_call();
         }
 };
