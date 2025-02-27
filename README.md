@@ -118,7 +118,7 @@ Waiting for service...と表示されれば起動成功です。
     ```
 3. [任意]TopicにPublishされているImageを送ってみる\
     exampleコードを準備したのでそれを使っていきます．\
-    [example/sample_2d.py](example/sample_2d.py)にある31行目のTopic名を「1.」で起動したカメラのTopic名に変更する．\
+    [example/sample_2d.py](/human_feature_detection_python/example/sample_2d.py)にある31行目のTopic名を「1.」で起動したカメラのTopic名に変更する．\
     そのままでは，「/image_raw」になっていて，主にxtionなどのカメラのTopic名となっている．\
     以下のコマンドを実行すると，3秒のカウントダウンの後に写っていた画像についての推論を行う．（カウントダウンが開始されない場合，カメラが起動していないかTopic名が間違えている可能性があります）
     ```sh
