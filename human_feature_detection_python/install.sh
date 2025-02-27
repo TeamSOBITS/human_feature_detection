@@ -29,6 +29,8 @@ python3 -m pip install \
     mtcnn \
     deepface
 
+git clone -b feature/human_feature_detection https://github.com/TeamSOBITS/sobits_msgs.git
+
 python3 model_setup.py
 
 echo "╚══╣ Install: Human Feature Detect (FINISHED) ╠══╝"

@@ -1,4 +1,0 @@
-sensor_msgs/Image input_image
----
-sensor_msgs/Image result_image
-Feature[] features
