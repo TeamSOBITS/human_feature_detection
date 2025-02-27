@@ -125,7 +125,7 @@ Waiting for service...と表示されれば起動成功です。
     $ ros2 run human_feature_detection_python sample_2d
     ```
     ターミナルに，検出した人数と，それぞれの年齢と性別，表情が出力されました．\
-    ちなみにこの結果を反映させた画像は，[result.png](/images/result.png)としてimagesフォルダの中に保存されていますので確認してみてください．
+    ちなみにこの結果を反映させた画像は，[result.png](/human_feature_detection_python/images/result.png)としてimagesフォルダの中に保存されていますので確認してみてください．
 
 <p align="right">(<a href="#readme-top">上に戻る</a>)</p>
 
