@@ -60,7 +60,8 @@ APIなどのネットワークを使用しないため，ネットワークな�
 
 1. ROSの`src`フォルダに移動します．
   ```sh
-   $ cd　~/colcon_ws/src/
+   $ cd　
+   $ cd colcon_ws/src/
   ```
 2. 本レポジトリをcloneします．
   ```sh
