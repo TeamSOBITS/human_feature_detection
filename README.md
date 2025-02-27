@@ -52,32 +52,42 @@ APIなどのネットワークを使用しないため，ネットワークな�
 以下に正常動作環境を示します．
 | System  | Version |
 | ------------- | ------------- |
-| Ubuntu | 20.04 (Focal Fossa) |
-| ROS | Noetic Ninjemys |
+| Ubuntu | 22.04 |
+| ROS2 | humble |
 | Python | 3.0~ |
 
 ### インストール方法
 
 1. ROSの`src`フォルダに移動します．
   ```sh
-   $ cd　~/catkin_ws/src/
+   $ cd　~/colcon_ws/src/
   ```
 2. 本レポジトリをcloneします．
   ```sh
-   $ git clone https://github.com/TeamSOBITS/human_feature_detection.git
+   $ git clone -b humble-devel https://github.com/TeamSOBITS/human_feature_detection.git
   ```
 3. レポジトリの中へ移動します．
   ```sh
    $ cd human_feature_detection
   ```
+4. human_feature_detection_pythonパッケージの中へ移動します
+  ```sh
+   $ cd human_feature_detection_python
+  ```
 4. 依存パッケージをインストールします．
   ```sh
    $ bash install.sh
   ```
+  ```sh
+  pip3 install 'numpy<2'
+  cd ../src
+  git clone -b feature/human_feature_detection https://github.com/TeamSOBITS/sobits_msgs.git
+  ```
+
 5. パッケージをコンパイルします．
   ```sh
-   $ cd ~/catkin_ws/
-   $ catkin_make
+   $ cd ~/colcon_ws/
+   $ colcon build --symlink-install
   ```
 
 <p align="right">(<a href="#readme-top">上に戻る</a>)</p>
@@ -91,22 +101,27 @@ APIなどのネットワークを使用しないため，ネットワークな�
 1. なんらかのカメラを起動する\
     Topicとしてsensor_msgs/Image型が出ればどのカメラでも構いません．\
     例として，PCに付いているカメラを起動させてみる方法を以下に記述する．
+
+    v4l2_cameraパッケージをインストール
     ```sh
-    $ roslaunch usb_cam usb_cam-test.launch
+    $ sudo apt-get install ros-humble-v4l2-camera
     ```
-    これが上手く行かない場合は，カメラが存在しないPCかubuntu上でカメラが使えないPCの可能性が高いので，USB接続でROS通信ができるカメラを起動する．
-2. [human_feature_detection.launch](/launch/human_feature_detection.launch)というlaunchファイルを実行します．
     ```sh
-    $ roslaunch human_feature_detection human_feature_detection.launch
+    $ ros2 run v4l2_camera v4l2_camera_node
     ```
-    これによって，画像から推論を行えるROSのService通信のServerが起動します．
+    これが上手く行かない場合は，カメラが存在しないPCかubuntu上でカメラが使えないPC，または権限付与ができていない可能性が高いので，USB接続でROS通信ができるカメラを起動する．
+2. human_feature_detection.launch.pyというlaunchファイルを実行することで、画像から推論を行うサーバーを起動します。初回は時間がかかるので注意。
+Waiting for service...と表示されれば起動成功です。
+    ```sh
+    $ ros2 launch human_feature_detection_python human_feature_detection.launch.py
+    ```
 3. [任意]TopicにPublishされているImageを送ってみる\
     exampleコードを準備したのでそれを使っていきます．\
-    [example/sample_2d.py](example/sample_2d.py)にある19行目のTopic名を「1.」で起動したカメラのTopic名に変更する．\
-    そのままでは，「/camera/rgb/image_raw」になっていて，主にxtionなどのカメラのTopic名となっている．\
+    [example/sample_2d.py](example/sample_2d.py)にある31行目のTopic名を「1.」で起動したカメラのTopic名に変更する．\
+    そのままでは，「/image_raw」になっていて，主にxtionなどのカメラのTopic名となっている．\
     以下のコマンドを実行すると，3秒のカウントダウンの後に写っていた画像についての推論を行う．（カウントダウンが開始されない場合，カメラが起動していないかTopic名が間違えている可能性があります）
     ```sh
-    $ rosrun human_feature_detection sample_2d.py
+    $ ros2 run human_feature_detection_python sample_2d
     ```
     ターミナルに，検出した人数と，それぞれの年齢と性別，表情が出力されました．\
     ちなみにこの結果を反映させた画像は，[result.png](/images/result.png)としてimagesフォルダの中に保存されていますので確認してみてください．
@@ -114,6 +129,10 @@ APIなどのネットワークを使用しないため，ネットワークな�
 <p align="right">(<a href="#readme-top">上に戻る</a>)</p>
 
 ### 3次元で行える特徴検出（身長と服の色）
+
+### 以下現在製作中
+
+
 1. 点群をPublishすることのできるカメラを起動する\
   depthカメラを起動してください．
 2. 点群のTopic名を設定する\

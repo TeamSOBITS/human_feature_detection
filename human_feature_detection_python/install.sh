@@ -3,6 +3,7 @@
 echo "╔══╣ Install: Human Feature Detect (STARTING) ╠══╗"
 
 sudo apt-get update
+sudo apt-get install ros-humble-vision-msgs
 
 sudo apt-get install -y \
     ros-${ROS_DISTRO}-cv-bridge \
@@ -29,8 +30,6 @@ python3 -m pip install \
     mtcnn \
     deepface
 
-git clone -b feature/human_feature_detection https://github.com/TeamSOBITS/sobits_msgs.git
-
-python3 model_setup.py
+python3 human_feature_detection/human_feature_detection_python/model_setup.py
 
 echo "╚══╣ Install: Human Feature Detect (FINISHED) ╠══╝"
