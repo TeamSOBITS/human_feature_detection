@@ -81,7 +81,7 @@ APIなどのネットワークを使用しないため，ネットワークな�
   ```
   ```sh
   pip3 install 'numpy<2'
-  cd ../src
+  cd ..
   git clone -b feature/human_feature_detection https://github.com/TeamSOBITS/sobits_msgs.git
   ```
 
