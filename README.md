@@ -79,11 +79,6 @@ APIなどのネットワークを使用しないため，ネットワークな�
   ```sh
    $ bash install.sh
   ```
-  ```sh
-  pip3 install 'numpy<2'
-  cd ..
-  git clone -b feature/human_feature_detection https://github.com/TeamSOBITS/sobits_msgs.git
-  ```
 
 5. パッケージをコンパイルします．
   ```sh
