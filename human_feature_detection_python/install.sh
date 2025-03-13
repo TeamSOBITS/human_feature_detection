@@ -32,4 +32,8 @@ python3 -m pip install \
 
 python3 human_feature_detection/human_feature_detection_python/model_setup.py
 
+pip3 install 'numpy<2'
+cd ..
+git clone -b feature/human_feature_detection https://github.com/TeamSOBITS/sobits_msgs.git
+
 echo "╚══╣ Install: Human Feature Detect (FINISHED) ╠══╝"
