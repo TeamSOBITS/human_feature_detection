@@ -120,19 +120,17 @@ Waiting for service...と表示されれば起動成功です。
     $ ros2 run human_feature_detection_python sample_2d
     ```
     ターミナルに，検出した人数と，それぞれの年齢と性別，表情が出力されました．\
-    ちなみにこの結果を反映させた画像は，[result.png](/human_feature_detection_python/images/result.png)としてimagesフォルダの中に保存されていますので確認してみてください．
+    ちなみにこの結果を反映させた画像は，[result.png](/images/result.png)としてimagesフォルダの中に保存されていますので確認してみてください．
 
 <p align="right">(<a href="#readme-top">上に戻る</a>)</p>
 
 ### 3次元で行える特徴検出（身長と服の色）
 
-### 以下現在製作中
-
 
 1. 点群をPublishすることのできるカメラを起動する\
   depthカメラを起動してください．
 2. 点群のTopic名を設定する\
-  paramとして[human_feature_detection.launch](/launch/human_feature_detection.launch)ファイルの6行目に，「1.」のTopic名に設定します．\
+  paramとして[human_feature_detection3d.launch.py](/launch/human_feature_detection3d.launch.py)ファイルの12行目に，「1.」のTopic名に設定します．\
   例として，azure kinectの点群名である/points2に設定しています．
   ```xml
     <param name="topic_name" value="/points2"/>
@@ -143,16 +141,16 @@ Waiting for service...と表示されれば起動成功です。
     <param name="face_range" value="0.20"/>               <!-- 顔の大体の大きさ。服の色を測る際に頭の先からどれだけ下の点群を参照するか -->
     <param name="clothes_range" value="0.35"/>            <!-- 服のおおよその縦幅。服の色を測る際、どれだけ広範囲を参照するか -->
   ```
-3. 設定が完了したら，[human_feature_detection.launch](/launch/human_feature_detection.launch)というlaunchファイルを実行します．
+3. 設定が完了したら，[human_feature_detection3d.launch.py](/launch/human_feature_detection3d.launch.py)というlaunchファイルを実行します．
   ```sh
-   $ roslaunch human_feature_detection human_feature_detection.launch
+   $ ros2 launch human_feature_detection_cpp human_feature_detection3d.launch.py
   ```
   これによって，点群から推論を行えるROSのService通信のServerが起動します．
 4. [任意]指定した点群をリクエストしてみる\
   exampleコードを準備したので，それを使っていきます．\
   3次元での推論をする場合は，カメラの前方1メートルあたりに立ってください．
   ```sh
-   $ rosrun human_feature_detection sample_3d.py
+   $ ros2 run human_feature_detection_cpp sample_3d
   ```
   ターミナルに，身長と服の色が出力されました．\
   出力されない場合，「2.」で設定した点群名(topic_name)や基準のフレーム名(target_frame)が間違っている可能性が高いです．
@@ -169,7 +167,7 @@ Waiting for service...と表示されれば起動成功です。
 ```
 - 3次元点群での推論(身長と服の色)をする場合
 ```
-/human_feature_detection/feature3d (human_feature_detection/Feature3d)
+/human_feature_detection_cpp/feature3d (human_feature_detection/Feature3d)
 ```
 
 

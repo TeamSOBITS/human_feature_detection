@@ -30,10 +30,10 @@ python3 -m pip install \
     mtcnn \
     deepface
 
-python3 human_feature_detection/human_feature_detection_python/model_setup.py
+python3 human_feature_detection/model_setup.py
 
 pip3 install 'numpy<2'
 cd ..
-git clone -b feature/human_feature_detection https://github.com/TeamSOBITS/sobits_msgs.git
+git clone -b humcle-devel https://github.com/TeamSOBITS/sobits_msgs.git
 
 echo "╚══╣ Install: Human Feature Detect (FINISHED) ╠══╝"
