@@ -89,6 +89,7 @@ APIなどのネットワークを使用しないため，ネットワークな�
   ```sh
    $ cd ~/colcon_ws/
    $ colcon build --symlink-install
+   $ source ~/colcon_ws/install/setup.sh
   ```
 
 <p align="right">(<a href="#readme-top">上に戻る</a>)</p>
@@ -129,20 +130,19 @@ Waiting for service...と表示されれば起動成功です。
 
 ### 3次元で行える特徴検出（身長と服の色）
 
-
 1. 点群をPublishすることのできるカメラを起動する\
   depthカメラを起動してください．
 2. 点群のTopic名を設定する\
-  paramとして[human_feature_detection3d.launch.py](human_feature_detection_cpp/launch/human_feature_detection3d.launch.py)ファイルの12行目に，「1.」のTopic名に設定します．\
+   パラメータとして[human_feature_detection3d.launch.py](human_feature_detection_cpp/launch/human_feature_detection3d.launch.py)ファイルの**topic_name**を，使用するカメラの点群のTopic名に設定します．\
   例として，azure kinectの点群名である/points2に設定しています．
-  ```xml
-    <param name="topic_name" value="/points2"/>
-  ```
-  他のパラメータについて
-  ```
-    <param name="target_frame" value="base_footprint"/>　 <!-- ロボットの基準フレーム。これによって身長を地面を基準とする頭の高さとできる -->
-    <param name="face_range" value="0.20"/>               <!-- 顔の大体の大きさ。服の色を測る際に頭の先からどれだけ下の点群を参照するか -->
-    <param name="clothes_range" value="0.35"/>            <!-- 服のおおよその縦幅。服の色を測る際、どれだけ広範囲を参照するか -->
+  ```python
+  parameters = [{
+                  'topic_name':'/points2', #点群名をここにセットする
+                  'target_frame':'base_footprint', #ロボットの基準フレーム
+                  'face_range':0.20, #顔の大体の大きさ
+                  'clothes_range':0.35, #服のおおよその縦幅
+                  'brightness_value':0 
+                  }]
   ```
 3. 設定が完了したら，[human_feature_detection3d.launch.py](human_feature_detection_cpp/launch/human_feature_detection3d.launch.py)というlaunchファイルを実行します．
   ```sh
