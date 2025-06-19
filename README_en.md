@@ -177,7 +177,7 @@ Please launch a depth camera.
 
 > [!NOTE]
 > By using this example code, you can estimate human features by sending data (images and point clouds) obtained from the robot's camera to the Service Server.\
-> Check the [example](/example/) folder and learn about the Service client (request side) from each sample file.
+> Check the [example](human_feature_detection_cpp/example) folder and learn about the Service client (request side) from each sample file.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
