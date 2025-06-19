@@ -6,7 +6,7 @@
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
-<!-- [![MIT License][license-shield]][license-url] -->
+[![License][license-shield]][license-url]
 
 # Human Feature Detect
 
@@ -24,7 +24,12 @@
         <li><a href="#インストール方法">インストール方法</a></li>
       </ul>
     </li>
-    <li><a href="#実行・操作方法">実行・操作方法</a></li>
+    <li><a href="#実行操作方法">実行・操作方法</a></li>
+      <ul>
+        <li><a href="#2次元で行える特徴検出性別と年齢">2次元で行える特徴検出（性別と年齢）</a></li>
+        <li><a href="#3次元で行える特徴検出身長と服の色">3次元で行える特徴検出（身長と服の色）</a></li>
+        <li><a href="#service-server">Service Server</a></li>     
+      </ul>
     <li><a href="#マイルストーン">マイルストーン</a></li>
     <li><a href="#参考文献">参考文献</a></li>
   </ol>
@@ -75,20 +80,18 @@ APIなどのネットワークを使用しないため，ネットワークな�
   ```sh
    $ cd human_feature_detection_python
   ```
-4. 依存パッケージをインストールします．
+5. 依存パッケージをインストールします．
   ```sh
    $ bash install.sh
   ```
 
-5. パッケージをコンパイルします．
+6. パッケージをコンパイルします．
   ```sh
    $ cd ~/colcon_ws/
    $ colcon build --symlink-install
   ```
 
 <p align="right">(<a href="#readme-top">上に戻る</a>)</p>
-
-
 
 <!-- 実行・操作方法 -->
 ## 実行・操作方法
@@ -159,6 +162,7 @@ Waiting for service...と表示されれば起動成功です。
 > このexampleコードを使えば，ロボットのカメラから得た画像や点群から，データをServiceのServerに送信することで，人の特徴を推定することができます．\
 > [example](/example/)フォルダを確認し，それぞれのサンプルファイルからServiceのクライアント(リクエスト側)について学びましょう．
 
+<p align="right">(<a href="#readme-top">上に戻る</a>)</p>
 
 ### Service Server
 - 2次元画像での推論(年齢と性別)をする場合
@@ -170,65 +174,22 @@ Waiting for service...と表示されれば起動成功です。
 /human_feature_detection_cpp/feature3d (human_feature_detection/Feature3d)
 ```
 
-
 <p align="right">(<a href="#readme-top">上に戻る</a>)</p>
-
-
 
 <!-- マイルストーン -->
 ## マイルストーン
 
 現時点のバッグや新規機能の依頼を確認するために[Issueページ](issues-url) をご覧ください．
 
-
-<!-- 変更履歴 -->
-<!-- ## 変更履歴
-
-- 2.0: 代表的なタイトル
-  - 詳細 1
-  - 詳細 2
-  - 詳細 3
-- 1.1: 代表的なタイトル
-  - 詳細 1
-  - 詳細 2
-  - 詳細 3
-- 1.0: 代表的なタイトル
-  - 詳細 1
-  - 詳細 2
-  - 詳細 3 -->
-
-<!-- CONTRIBUTING -->
-<!-- ## Contributing
-
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-<p align="right">(<a href="#readme-top">上に戻る</a>)</p> -->
-
-
-
-<!-- LICENSE -->
-<!-- ## License
-
-Distributed under the MIT License. See `LICENSE.txt` for more information.
-
-<p align="right">(<a href="#readme-top">上に戻る</a>)</p> -->
-
-
+<p align="right">(<a href="#readme-top">上に戻る</a>)</p>
 
 <!-- 参考文献 -->
 ## 参考文献
 
 * [Joint Face Detection and Alignment using Multi-task Cascaded Convolutional Networks](https://arxiv.org/abs/1604.02878)
 * [DeepFace: Closing the Gap to Human-Level Performance in Face Verification](https://www.cs.toronto.edu/~ranzato/publications/taigman_cvpr14.pdf)
+
+<p align="right">(<a href="#readme-top">上に戻る</a>)</p>
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
