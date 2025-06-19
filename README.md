@@ -160,7 +160,7 @@ Waiting for service...と表示されれば起動成功です。
 
 > [!NOTE]
 > このexampleコードを使えば，ロボットのカメラから得た画像や点群から，データをServiceのServerに送信することで，人の特徴を推定することができます．\
-> [example](/example/)フォルダを確認し，それぞれのサンプルファイルからServiceのクライアント(リクエスト側)について学びましょう．
+> [example](human_feature_detection_cpp/example)フォルダを確認し，それぞれのサンプルファイルからServiceのクライアント(リクエスト側)について学びましょう．
 
 <p align="right">(<a href="#readme-top">上に戻る</a>)</p>
 
