@@ -30,9 +30,9 @@
         <li><a href="#2d-feature-detection-gender-and-age">2D Feature Detection (Gender and Age)</a></li>
         <li><a href="#3d-feature-detection-height-and-clothes-color">3D Feature Detection (Height and Clothes Color)
 </a></li>
+        <li><a href="#service-server">Service Server</a></li>
       </ul>
     </li>
-    <li><a href="#service-server">Service Server</a></li>
     <li><a href="#milestone">Milestone</a></li>
     <li><a href="#references">References</a></li>
   </ol>
