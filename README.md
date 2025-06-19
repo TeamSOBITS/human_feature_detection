@@ -133,7 +133,7 @@ Waiting for service...と表示されれば起動成功です。
 1. 点群をPublishすることのできるカメラを起動する\
   depthカメラを起動してください．
 2. 点群のTopic名を設定する\
-  paramとして[human_feature_detection3d.launch.py](/launch/human_feature_detection3d.launch.py)ファイルの12行目に，「1.」のTopic名に設定します．\
+  paramとして[human_feature_detection3d.launch.py](human_feature_detection_cpp/launch/human_feature_detection3d.launch.py)ファイルの12行目に，「1.」のTopic名に設定します．\
   例として，azure kinectの点群名である/points2に設定しています．
   ```xml
     <param name="topic_name" value="/points2"/>
@@ -144,7 +144,7 @@ Waiting for service...と表示されれば起動成功です。
     <param name="face_range" value="0.20"/>               <!-- 顔の大体の大きさ。服の色を測る際に頭の先からどれだけ下の点群を参照するか -->
     <param name="clothes_range" value="0.35"/>            <!-- 服のおおよその縦幅。服の色を測る際、どれだけ広範囲を参照するか -->
   ```
-3. 設定が完了したら，[human_feature_detection3d.launch.py](/launch/human_feature_detection3d.launch.py)というlaunchファイルを実行します．
+3. 設定が完了したら，[human_feature_detection3d.launch.py](human_feature_detection_cpp/launch/human_feature_detection3d.launch.py)というlaunchファイルを実行します．
   ```sh
    $ ros2 launch human_feature_detection_cpp human_feature_detection3d.launch.py
   ```
