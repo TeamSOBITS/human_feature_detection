@@ -93,6 +93,7 @@ The following shows the normal operating environment.
   ```sh
    $ cd ~/colcon_ws/
    $ colcon build --symlink-install
+   $ source ~/colcon_ws/install/setup.sh
   ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -148,19 +149,19 @@ The following shows the normal operating environment.
 1. Launch a camera that can publish point clouds.\
 Please launch a depth camera.
 2. Set the Point Cloud Topic Name.\
-   Set the topic_name parameter on line 12 of the [human_feature_detection3d.launch.py](/launch/human_feature_detection3d.launch.py) file to the Topic name from "1.".
+   Set the **topic_name** parameter in the [human_feature_detection3d.launch.py](human_feature_detection_cpp/launch/human_feature_detection3d.launch.py) file to the point cloud Topic name of the camera you are using.
 
   As an example, it is set to /points2, which is the point cloud name for Azure Kinect.
-  ```xml
-    <param name="topic_name" value="/points2"/>
+  ```python
+  parameters = [{
+                  'topic_name':'/points2', #点群名をここにセットする
+                  'target_frame':'base_footprint', #ロボットの基準フレーム
+                  'face_range':0.20, #顔の大体の大きさ
+                  'clothes_range':0.35, #服のおおよその縦幅
+                  'brightness_value':0 
+                  }]
   ```
-  About other parameters:
-  ```
-  <param name="target_frame" value="base_footprint"/>   <!-- Robot's base frame. This allows height to be measured as the head's height relative to the ground. -->
-  <param name="face_range" value="0.20"/>               <!-- Approximate size of the face. How much point cloud below the top of the head to refer to when measuring clothes color. -->
-  <param name="clothes_range" value="0.35"/>            <!-- Approximate vertical width of clothes. How wide an area to refer to when measuring clothes color. -->
-  ```
-3. Once the settings are complete, run the [human_feature_detection3d.launch.py](/launch/human_feature_detection3d.launch.py) launch file.
+3. Once the settings are complete, run the [human_feature_detection3d.launch.py](human_feature_detection_cpp/launch/human_feature_detection3d.launch.py) launch file.
   ```sh
    $ ros2 launch human_feature_detection_cpp human_feature_detection3d.launch.py
   ```
