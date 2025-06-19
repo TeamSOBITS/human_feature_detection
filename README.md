@@ -204,6 +204,4 @@ Waiting for service...と表示されれば起動成功です。
 [license-shield]: https://img.shields.io/github/license/TeamSOBITS/human_feature_detection.svg?style=for-the-badge
 [license-url]: LICENSE
 
-<p align="right">(<a href="#readme-top">上に戻る</a>)</p>
-
 </details>
