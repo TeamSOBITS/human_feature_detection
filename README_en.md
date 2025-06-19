@@ -154,12 +154,12 @@ Please launch a depth camera.
   As an example, it is set to /points2, which is the point cloud name for Azure Kinect.
   ```python
   parameters = [{
-                  'topic_name':'/points2', #点群名をここにセットする
-                  'target_frame':'base_footprint', #ロボットの基準フレーム
-                  'face_range':0.20, #顔の大体の大きさ
-                  'clothes_range':0.35, #服のおおよその縦幅
-                  'brightness_value':0 
-                  }]
+      'topic_name':'/points2', # Set the point cloud topic name here
+      'target_frame':'base_footprint', # Robot's base frame
+      'face_range':0.20, # Approximate size of the face
+      'clothes_range':0.35, # Approximate vertical width of clothes
+      'brightness_value':0
+  }]
   ```
 3. Once the settings are complete, run the [human_feature_detection3d.launch.py](human_feature_detection_cpp/launch/human_feature_detection3d.launch.py) launch file.
   ```sh
